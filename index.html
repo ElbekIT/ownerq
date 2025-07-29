@@ -573,44 +573,6 @@
       opacity: 0.5;
     }
 
-    /* Notification Toast */
-    .notification-toast {
-      position: fixed;
-      top: 2rem;
-      right: 2rem;
-      padding: 1rem 2rem;
-      border-radius: 1rem;
-      color: white;
-      font-weight: 600;
-      z-index: 3000;
-      animation: slideInRight 0.3s ease;
-      max-width: 400px;
-      box-shadow: var(--shadow-hover);
-    }
-
-    .notification-toast.success {
-      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-    }
-
-    .notification-toast.error {
-      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    }
-
-    .notification-toast.info {
-      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    }
-
-    @keyframes slideInRight {
-      from {
-        opacity: 0;
-        transform: translateX(100px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
     /* Responsive */
     @media (max-width: 768px) {
       .header-content {
@@ -649,12 +611,6 @@
         width: calc(100% - 2rem);
         padding: 2rem;
       }
-
-      .notification-toast {
-        right: 1rem;
-        left: 1rem;
-        max-width: none;
-      }
     }
 
     @keyframes fadeIn {
@@ -665,6 +621,83 @@
     /* Hidden class */
     .hidden {
       display: none !important;
+    }
+
+    .filter-input {
+      padding: 0.75rem 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 0.75rem;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.9rem;
+      background: var(--white);
+      color: var(--dark);
+      cursor: text;
+      transition: all 0.3s ease;
+      min-width: 200px;
+    }
+
+    .filter-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding: 1rem 2rem;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      justify-content: center;
+      border-radius: 1rem;
+    }
+
+    .content-section {
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn-message {
+      background: rgba(0, 136, 204, 0.1);
+      color: #0088cc;
+    }
+
+    .btn-message:hover {
+      background: #0088cc;
+      color: var(--white);
+    }
+
+    .btn-telegram {
+      background: linear-gradient(135deg, #0088cc 0%, #26a5e4 100%);
+      color: var(--white);
+      box-shadow: 0 10px 40px rgba(0, 136, 204, 0.2);
+    }
+
+    .btn-telegram:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 60px rgba(0, 136, 204, 0.3);
+    }
+
+    .btn.loading {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .btn.loading::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 2px solid transparent;
+      border-top: 2px solid var(--white);
+      border-radius: 50%;
+      right: 1rem;
+      animation: spin 1s linear infinite;
     }
   </style>
 </head>
@@ -721,85 +754,180 @@
 
     <!-- Main Content -->
     <main class="main">
-      <h1 class="page-title">👑 Owner Dashboard</h1>
-      <p class="page-subtitle">Barcha buyurtmalarni boshqaring va statuslarini yangilang</p>
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs">
+        <a href="#orders" class="nav-tab active" onclick="showSection('orders')">📋 Buyurtmalar</a>
+        <a href="#users" class="nav-tab" onclick="showSection('users')">👥 Foydalanuvchilar</a>
+      </nav>
 
-      <!-- Stats Grid -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon">📊</div>
-          <div class="stat-number" id="totalOrders">0</div>
-          <div class="stat-label">Jami buyurtmalar</div>
+      <!-- Orders Section -->
+      <div id="ordersSection" class="content-section">
+        <h1 class="page-title">👑 Owner Dashboard</h1>
+        <p class="page-subtitle">Barcha buyurtmalarni boshqaring va statuslarini yangilang</p>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-number" id="totalOrders">0</div>
+            <div class="stat-label">Jami buyurtmalar</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⏳</div>
+            <div class="stat-number" id="pendingOrders">0</div>
+            <div class="stat-label">Kutilayotgan</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-number" id="approvedOrders">0</div>
+            <div class="stat-label">Tasdiqlangan</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🎉</div>
+            <div class="stat-number" id="completedOrders">0</div>
+            <div class="stat-label">Tayyor</div>
+          </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-icon">⏳</div>
-          <div class="stat-number" id="pendingOrders">0</div>
-          <div class="stat-label">Kutilayotgan</div>
+
+        <!-- Filters -->
+        <div class="filters">
+          <div class="filter-group">
+            <label>📋 Status:</label>
+            <select id="statusFilter" class="filter-select">
+              <option value="">Barchasi</option>
+              <option value="pending">Kutilayotgan</option>
+              <option value="approved">Tasdiqlangan</option>
+              <option value="completed">Tayyor</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>🎯 Tur:</label>
+            <select id="typeFilter" class="filter-select">
+              <option value="">Barchasi</option>
+              <option value="gaming">Gaming Dizayn</option>
+              <option value="web">Web Dizayn</option>
+            </select>
+          </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-icon">✅</div>
-          <div class="stat-number" id="approvedOrders">0</div>
-          <div class="stat-label">Tasdiqlangan</div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="loading">
+          <div class="loading-spinner"></div>
+          <p>Buyurtmalar yuklanmoqda...</p>
         </div>
-        <div class="stat-card">
-          <div class="stat-icon">🎉</div>
-          <div class="stat-number" id="completedOrders">0</div>
-          <div class="stat-label">Tayyor</div>
+
+        <!-- Orders Container -->
+        <div id="ordersContainer" class="orders-container" style="display: none;">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>👤 Foydalanuvchi</th>
+                <th>📧 Email</th>
+                <th>📱 Telefon</th>
+                <th>🎯 Tur</th>
+                <th>💰 Narx</th>
+                <th>📅 Sana</th>
+                <th>📊 Status</th>
+                <th>⚙️ Amallar</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+          <div class="empty-icon">📦</div>
+          <h3>Hali buyurtmalar yo'q</h3>
+          <p>Buyurtmalar kelganda bu yerda ko'rinadi</p>
         </div>
       </div>
 
-      <!-- Filters -->
-      <div class="filters">
-        <div class="filter-group">
-          <label>📋 Status:</label>
-          <select id="statusFilter" class="filter-select">
-            <option value="">Barchasi</option>
-            <option value="pending">Kutilayotgan</option>
-            <option value="approved">Tasdiqlangan</option>
-            <option value="completed">Tayyor</option>
-          </select>
+      <!-- Users Section -->
+      <div id="usersSection" class="content-section" style="display: none;">
+        <h1 class="page-title">👥 Ro'yxatdan o'tgan foydalanuvchilar</h1>
+        <p class="page-subtitle">Barcha Telegram orqali ro'yxatdan o'tgan foydalanuvchilar</p>
+
+        <!-- Users Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-number" id="totalUsers">0</div>
+            <div class="stat-label">Jami foydalanuvchilar</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📅</div>
+            <div class="stat-number" id="todayUsers">0</div>
+            <div class="stat-label">Bugun ro'yxatdan o'tgan</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📱</div>
+            <div class="stat-number" id="telegramUsers">0</div>
+            <div class="stat-label">Telegram orqali</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-number" id="verifiedUsers">0</div>
+            <div class="stat-label">Tasdiqlangan</div>
+          </div>
         </div>
-        <div class="filter-group">
-          <label>🎯 Tur:</label>
-          <select id="typeFilter" class="filter-select">
-            <option value="">Barchasi</option>
-            <option value="gaming">Gaming Dizayn</option>
-            <option value="web">Web Dizayn</option>
-          </select>
+
+        <!-- Users Filters -->
+        <div class="filters">
+          <div class="filter-group">
+            <label>🔍 Qidirish:</label>
+            <input type="text" id="userSearch" class="filter-input" placeholder="Telegram ID yoki sana bo'yicha qidiring...">
+          </div>
+          <div class="filter-group">
+            <label>📅 Sana:</label>
+            <select id="dateFilter" class="filter-select">
+              <option value="">Barchasi</option>
+              <option value="today">Bugun</option>
+              <option value="week">Bu hafta</option>
+              <option value="month">Bu oy</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>✅ Status:</label>
+            <select id="verificationFilter" class="filter-select">
+              <option value="">Barchasi</option>
+              <option value="verified">Tasdiqlangan</option>
+              <option value="pending">Kutilayotgan</option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <!-- Loading State -->
-      <div id="loadingState" class="loading">
-        <div class="loading-spinner"></div>
-        <p>Buyurtmalar yuklanmoqda...</p>
-      </div>
+        <!-- Users Loading -->
+        <div id="usersLoadingState" class="loading">
+          <div class="loading-spinner"></div>
+          <p>Foydalanuvchilar yuklanmoqda...</p>
+        </div>
 
-      <!-- Orders Container -->
-      <div id="ordersContainer" class="orders-container" style="display: none;">
-        <table class="orders-table">
-          <thead>
-            <tr>
-              <th>👤 Foydalanuvchi</th>
-              <th>📧 Email</th>
-              <th>📱 Telefon</th>
-              <th>🎯 Tur</th>
-              <th>💰 Narx</th>
-              <th>📅 Sana</th>
-              <th>📊 Status</th>
-              <th>⚙️ Amallar</th>
-            </tr>
-          </thead>
-          <tbody id="ordersTableBody">
-          </tbody>
-        </table>
-      </div>
+        <!-- Users Table -->
+        <div id="usersContainer" class="orders-container" style="display: none;">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>🆔 Telegram ID</th>
+                <th>📅 Ro'yxatdan o'tgan</th>
+                <th>🔐 Usul</th>
+                <th>✅ Status</th>
+                <th>📊 Buyurtmalar</th>
+                <th>⚙️ Amallar</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+            </tbody>
+          </table>
+        </div>
 
-      <!-- Empty State -->
-      <div id="emptyState" class="empty-state" style="display: none;">
-        <div class="empty-icon">📦</div>
-        <h3>Hali buyurtmalar yo'q</h3>
-        <p>Buyurtmalar kelganda bu yerda ko'rinadi</p>
+        <!-- Users Empty State -->
+        <div id="usersEmptyState" class="empty-state" style="display: none;">
+          <div class="empty-icon">👥</div>
+          <h3>Hali foydalanuvchilar yo'q</h3>
+          <p>Foydalanuvchilar ro'yxatdan o'tganda bu yerda ko'rinadi</p>
+        </div>
       </div>
     </main>
   </div>
@@ -815,12 +943,44 @@
     </div>
   </div>
 
+  <!-- Message Modal -->
+  <div class="modal-overlay" id="messageModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeMessageModal()">×</button>
+      <h3 class="modal-title">💬 Xabar yuborish</h3>
+      <div class="modal-content">
+        <div class="modal-section">
+          <h4>📱 Qabul qiluvchi</h4>
+          <p><strong>Telegram ID:</strong> <span id="recipientId"></span></p>
+          <p><strong>Ism:</strong> <span id="recipientName"></span></p>
+        </div>
+        
+        <div class="modal-section">
+          <h4>✍️ Xabar matni</h4>
+          <textarea 
+            id="messageText" 
+            style="width: 100%; min-height: 120px; padding: 1rem; border: 2px solid #e5e7eb; border-radius: 1rem; font-family: 'Poppins', sans-serif; resize: vertical;"
+            placeholder="Xabar matnini kiriting..."></textarea>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+          <button class="btn btn-telegram" id="sendMessageBtn" onclick="sendMessage()">
+            <span>📤</span> Xabar yuborish
+          </button>
+          <button class="btn btn-secondary" onclick="closeMessageModal()">
+            <span>❌</span> Bekor qilish
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Firebase SDK -->
   <script type="module">
     // Import Firebase functions
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { getDatabase, ref, onValue, update, remove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
-    import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { getDatabase, ref, onValue, update, remove, orderByChild, query } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+    import { push } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
     // Firebase configuration
     const firebaseConfig = {
@@ -837,24 +997,13 @@
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
-    const auth = getAuth(app);
 
     // Owner password (in real app, this should be more secure)
     const OWNER_PASSWORD = "elbek2025admin";
 
-    // EmailJS configuration
-    const EMAILJS_SERVICE_ID = "service_gmail_elbek";
-    const EMAILJS_TEMPLATE_ID = "template_status_update";
-    const EMAILJS_PUBLIC_KEY = "your_emailjs_public_key";
-
-    // SMS API configuration (Eskiz.uz yoki boshqa SMS service)
-    const SMS_API_URL = "https://notify.eskiz.uz/api/message/sms/send";
-    const SMS_API_TOKEN = "your_sms_api_token";
-
     let allOrders = [];
     let filteredOrders = [];
     let isAuthenticated = false;
-    let allUsers = {}; // Store user data
 
     // Check if already authenticated
     if (sessionStorage.getItem('ownerAuth') === 'true') {
@@ -885,7 +1034,6 @@
       isAuthenticated = true;
       document.getElementById('loginScreen').classList.add('hidden');
       document.getElementById('dashboard').classList.remove('hidden');
-      loadUsers();
       loadOrders();
     }
 
@@ -896,17 +1044,6 @@
         location.reload();
       }
     };
-
-    // Load users data
-    function loadUsers() {
-      const usersRef = ref(database, 'users');
-      onValue(usersRef, (snapshot) => {
-        if (snapshot.exists()) {
-          allUsers = snapshot.val();
-          console.log('✅ Foydalanuvchilar ma\'lumotlari yuklandi:', Object.keys(allUsers).length);
-        }
-      });
-    }
 
     // Load all orders from Firebase Realtime Database
     function loadOrders() {
@@ -1039,7 +1176,7 @@
           <td class="order-price">${formattedPrice}</td>
           <td class="order-date">${formattedDate}</td>
           <td>
-            <select class="status-select status-${order.status || 'pending'}" onchange="updateOrderStatus('${order.id}', this.value, '${order.status || 'pending'}')">
+            <select class="status-select status-${order.status || 'pending'}" onchange="updateOrderStatus('${order.id}', this.value)">
               <option value="pending" ${(order.status || 'pending') === 'pending' ? 'selected' : ''}>⏳ Kutilayotgan</option>
               <option value="approved" ${order.status === 'approved' ? 'selected' : ''}>✅ Tasdiqlangan</option>
               <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>🎉 Tayyor</option>
@@ -1054,9 +1191,9 @@
       });
     }
 
-    // Update order status in Firebase and send notifications
-    window.updateOrderStatus = async function(orderId, newStatus, oldStatus) {
-      if (!isAuthenticated || newStatus === oldStatus) return;
+    // Update order status in Firebase
+    window.updateOrderStatus = async function(orderId, newStatus) {
+      if (!isAuthenticated) return;
       
       try {
         console.log('🔄 Status yangilanmoqda:', orderId, '->', newStatus);
@@ -1068,215 +1205,12 @@
         });
         
         console.log('✅ Status yangilandi');
-        
-        // Find order data for notifications
-        const order = allOrders.find(o => o.id === orderId);
-        if (order) {
-          // Send notifications
-          await sendStatusNotifications(order, newStatus, oldStatus);
-        }
-        
         showNotification(`✅ Status yangilandi: ${getStatusText(newStatus)}`, 'success');
       } catch (error) {
         console.error('❌ Status yangilanmadi:', error);
         showNotification('❌ Status yangilanmadi! Xatolik: ' + error.message, 'error');
       }
     };
-
-    // Send status update notifications (Gmail + SMS)
-    async function sendStatusNotifications(order, newStatus, oldStatus) {
-      try {
-        const statusText = getStatusText(newStatus);
-        const orderType = order.type === 'gaming' ? 'Gaming Dizayn' : 'Web Dizayn';
-        
-        // Find user data
-        let userEmail = order.email;
-        let userPhone = order.phone;
-        
-        // If user has Firebase Auth data, get from users collection
-        if (order.userUID && allUsers[order.userUID]) {
-          const userData = allUsers[order.userUID];
-          userEmail = userData.email || order.email;
-          userPhone = userData.phoneNumber || order.phone;
-        }
-
-        console.log('📧 Xabar yuborilmoqda:', userEmail, userPhone);
-
-        // 1. Send Gmail notification
-        if (userEmail) {
-          await sendGmailNotification(order, userEmail, newStatus, statusText, orderType);
-        }
-
-        // 2. Send SMS notification
-        if (userPhone) {
-          await sendSMSNotification(order, userPhone, newStatus, statusText, orderType);
-        }
-
-        // 3. Send Telegram notification to owner
-        await sendTelegramStatusUpdate(order, newStatus, oldStatus, statusText);
-
-      } catch (error) {
-        console.error('❌ Xabar yuborishda xatolik:', error);
-      }
-    }
-
-    // Send Gmail notification using EmailJS
-    async function sendGmailNotification(order, email, newStatus, statusText, orderType) {
-      try {
-        // Create email content
-        const emailData = {
-          to_email: email,
-          to_name: order.user || 'Hurmatli mijoz',
-          order_id: order.id,
-          order_type: orderType,
-          status: statusText,
-          order_details: order.type === 'gaming' 
-            ? `O'yin: ${order.game || 'N/A'}, Dizayn: ${order.designType || 'N/A'}`
-            : `Kompaniya: ${order.companyName || 'N/A'}, Sayt turi: ${order.websiteType || 'N/A'}`,
-          price: order.price ? (typeof order.price === 'number' ? order.price.toLocaleString() + ' so\'m' : order.price) : 'N/A',
-          date: new Date().toLocaleDateString('uz-UZ'),
-          message: getStatusMessage(newStatus)
-        };
-
-        // Send via EmailJS (you need to set up EmailJS account)
-        // For now, we'll use a simple fetch to a Gmail API or SMTP service
-        
-        const emailContent = `
-          <h2>🎨 Elbek Design Studio - Buyurtma Yangilanishi</h2>
-          <p>Hurmatli ${order.user || 'mijoz'},</p>
-          
-          <p>Sizning <strong>${orderType}</strong> buyurtmangiz holati yangilandi!</p>
-          
-          <div style="background: #f8fafc; padding: 20px; border-radius: 10px; margin: 20px 0;">
-            <h3>📋 Buyurtma ma'lumotlari:</h3>
-            <p><strong>🆔 ID:</strong> ${order.id}</p>
-            <p><strong>🎯 Tur:</strong> ${orderType}</p>
-            <p><strong>📊 Yangi status:</strong> ${statusText}</p>
-            <p><strong>💰 Narx:</strong> ${emailData.price}</p>
-            <p><strong>📅 Yangilangan:</strong> ${emailData.date}</p>
-          </div>
-          
-          <div style="background: #22c55e; color: white; padding: 15px; border-radius: 10px; margin: 20px 0;">
-            <h3>📢 ${getStatusMessage(newStatus)}</h3>
-          </div>
-          
-          <p>Savollaringiz bo'lsa, biz bilan bog'laning:</p>
-          <p>📞 +998 90 406 30 90</p>
-          <p>📧 elbekdesign@gmail.com</p>
-          
-          <p>Rahmat!</p>
-          <p><strong>Elbek Design Studio</strong></p>
-        `;
-
-        // Send email using a service (you can use EmailJS, Nodemailer, or other services)
-        console.log('📧 Gmail yuborildi:', email);
-        showNotification('📧 Gmail xabari yuborildi!', 'info');
-
-      } catch (error) {
-        console.error('❌ Gmail yuborishda xatolik:', error);
-      }
-    }
-
-    // Send SMS notification
-    async function sendSMSNotification(order, phone, newStatus, statusText, orderType) {
-      try {
-        const smsText = `🎨 Elbek Design Studio
-        
-Hurmatli ${order.user || 'mijoz'}!
-
-Sizning ${orderType} buyurtmangiz holati yangilandi:
-
-📊 Yangi status: ${statusText}
-🆔 ID: ${order.id}
-📅 Sana: ${new Date().toLocaleDateString('uz-UZ')}
-
-${getStatusMessage(newStatus)}
-
-📞 +998904063090
-Rahmat!`;
-
-        // Clean phone number
-        const cleanPhone = phone.replace(/\D/g, '');
-        
-        // Send SMS using SMS service (Eskiz.uz, Playmobile, etc.)
-        // For demo, we'll just log it
-        console.log('📱 SMS yuborildi:', cleanPhone, smsText);
-        showNotification('📱 SMS xabari yuborildi!', 'info');
-
-        // Real SMS sending code would be here:
-        /*
-        const smsResponse = await fetch(SMS_API_URL, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${SMS_API_TOKEN}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            mobile_phone: cleanPhone,
-            message: smsText,
-            from: '4546'
-          })
-        });
-        */
-
-      } catch (error) {
-        console.error('❌ SMS yuborishda xatolik:', error);
-      }
-    }
-
-    // Send Telegram notification to owner about status update
-    async function sendTelegramStatusUpdate(order, newStatus, oldStatus, statusText) {
-      try {
-        const message = `📊 *BUYURTMA STATUSI YANGILANDI*
-
-👤 *Mijoz:* ${order.user || 'N/A'}
-📧 *Email:* ${order.email || 'N/A'}
-📱 *Telefon:* ${order.phone || 'N/A'}
-🆔 *ID:* ${order.id}
-
-📊 *Status o'zgarishi:*
-${getStatusText(oldStatus)} → ${statusText}
-
-🎯 *Buyurtma:* ${order.type === 'gaming' ? '🎮 Gaming Dizayn' : '🌐 Web Dizayn'}
-💰 *Narx:* ${order.price ? (typeof order.price === 'number' ? order.price.toLocaleString() + ' so\'m' : order.price) : 'N/A'}
-
-📅 *Yangilangan:* ${new Date().toLocaleString('uz-UZ')}
-
-✅ Mijozga Gmail va SMS xabar yuborildi!`;
-
-        const response = await fetch(`https://api.telegram.org/bot7606592691:AAEX0POICKvjbOEwNQuAdUn-wqcqKdl-Gvc/sendMessage`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            chat_id: '7833115003',
-            text: message,
-            parse_mode: 'Markdown'
-          })
-        });
-
-        if (response.ok) {
-          console.log('✅ Telegram xabari yuborildi');
-        }
-      } catch (error) {
-        console.error('❌ Telegram xabar yuborishda xatolik:', error);
-      }
-    }
-
-    // Get status message for notifications
-    function getStatusMessage(status) {
-      switch (status) {
-        case 'pending':
-          return 'Buyurtmangiz qabul qilindi va ko\'rib chiqilmoqda. Tez orada siz bilan bog\'lanamiz.';
-        case 'approved':
-          return 'Buyurtmangiz tasdiqlandi! Ish boshlandi. Tayyor bo\'lganda xabar beramiz.';
-        case 'completed':
-          return 'Buyurtmangiz tayyor! Natijani olish uchun biz bilan bog\'laning.';
-        default:
-          return 'Buyurtmangiz holati yangilandi.';
-      }
-    }
 
     // View order details
     window.viewOrder = function(orderId) {
@@ -1295,7 +1229,6 @@ ${getStatusText(oldStatus)} → ${statusText}
           <p><strong>Telegram:</strong> ${order.telegram || 'Berilmagan'}</p>
           ${order.gender ? `<p><strong>Jinsi:</strong> ${order.gender}</p>` : ''}
           ${order.age ? `<p><strong>Yosh:</strong> ${order.age}</p>` : ''}
-          ${order.userUID ? `<p><strong>Firebase UID:</strong> ${order.userUID}</p>` : ''}
         </div>
 
         <div class="modal-section">
@@ -1373,17 +1306,446 @@ ${getStatusText(oldStatus)} → ${statusText}
       }
     }
 
-    // Show notification toast
-    function showNotification(message, type = 'success') {
+    // Show notification
+    function showNotification(message, type) {
       const notification = document.createElement('div');
-      notification.className = `notification-toast ${type}`;
+      notification.style.cssText = `
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        padding: 1rem 2rem;
+        border-radius: 1rem;
+        color: white;
+        font-weight: 600;
+        z-index: 3000;
+        animation: slideIn 0.3s ease;
+        ${type === 'success' ? 'background: #22c55e;' : 'background: #ef4444;'}
+      `;
       notification.textContent = message;
       document.body.appendChild(notification);
 
       setTimeout(() => {
         notification.remove();
-      }, 4000);
+      }, 3000);
     }
+
+    // Users management variables
+    let allUsers = [];
+    let allTelegramUsers = [];
+    let filteredUsers = [];
+
+    // Show section function
+    window.showSection = function(section) {
+      // Hide all sections
+      document.getElementById('ordersSection').style.display = 'none';
+      document.getElementById('usersSection').style.display = 'none';
+      
+      // Remove active class from all tabs
+      document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Show selected section and activate tab
+      if (section === 'orders') {
+        document.getElementById('ordersSection').style.display = 'block';
+        document.querySelector('[onclick="showSection(\'orders\')"]').classList.add('active');
+      } else if (section === 'users') {
+        document.getElementById('usersSection').style.display = 'block';
+        document.querySelector('[onclick="showSection(\'users\')"]').classList.add('active');
+        loadUsers();
+      }
+    };
+
+    // Load users from Firebase
+    function loadUsers() {
+      const usersLoadingState = document.getElementById('usersLoadingState');
+      const usersContainer = document.getElementById('usersContainer');
+      const usersEmptyState = document.getElementById('usersEmptyState');
+
+      console.log('👥 Foydalanuvchilar yuklanmoqda...');
+
+      // Load regular users
+      const usersRef = ref(database, 'users');
+      onValue(usersRef, (snapshot) => {
+        allUsers = [];
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          Object.keys(data).forEach(key => {
+            const user = data[key];
+            user.id = key;
+            allUsers.push(user);
+          });
+        }
+        console.log('✅ Regular users loaded:', allUsers.length);
+        combineAndRenderUsers();
+      });
+
+      // Load Telegram users
+      const telegramUsersRef = ref(database, 'telegram_users');
+      onValue(telegramUsersRef, (snapshot) => {
+        allTelegramUsers = [];
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          Object.keys(data).forEach(key => {
+            const user = data[key];
+            user.id = key;
+            allTelegramUsers.push(user);
+          });
+        }
+        console.log('✅ Telegram users loaded:', allTelegramUsers.length);
+        combineAndRenderUsers();
+      });
+    }
+
+    // Combine and render users
+    function combineAndRenderUsers() {
+      const usersLoadingState = document.getElementById('usersLoadingState');
+      const usersContainer = document.getElementById('usersContainer');
+      const usersEmptyState = document.getElementById('usersEmptyState');
+
+      // Combine all users
+      const combinedUsers = [
+        ...allUsers.map(user => ({...user, source: 'firebase'})),
+        ...allTelegramUsers.map(user => ({...user, source: 'telegram'}))
+      ];
+
+      // Sort by creation date (newest first)
+      combinedUsers.sort((a, b) => {
+        const dateA = a.createdAt ? new Date(a.createdAt) : new Date(0);
+        const dateB = b.createdAt ? new Date(b.createdAt) : new Date(0);
+        return dateB - dateA;
+      });
+
+      filteredUsers = combinedUsers;
+      
+      usersLoadingState.style.display = 'none';
+      
+      updateUsersStats();
+      applyUsersFilters();
+      
+      if (filteredUsers.length === 0) {
+        usersEmptyState.style.display = 'block';
+        usersContainer.style.display = 'none';
+      } else {
+        usersEmptyState.style.display = 'none';
+        usersContainer.style.display = 'block';
+      }
+    }
+
+    // Update users statistics
+    function updateUsersStats() {
+      const totalUsers = allUsers.length + allTelegramUsers.length;
+      const today = new Date().toDateString();
+      const todayUsers = filteredUsers.filter(user => {
+        if (!user.createdAt) return false;
+        return new Date(user.createdAt).toDateString() === today;
+      }).length;
+      const telegramUsers = allTelegramUsers.length;
+      const verifiedUsers = filteredUsers.filter(user => user.verified === true).length;
+
+      document.getElementById('totalUsers').textContent = totalUsers;
+      document.getElementById('todayUsers').textContent = todayUsers;
+      document.getElementById('telegramUsers').textContent = telegramUsers;
+      document.getElementById('verifiedUsers').textContent = verifiedUsers;
+    }
+
+    // Apply users filters
+    function applyUsersFilters() {
+      const searchTerm = document.getElementById('userSearch')?.value.toLowerCase() || '';
+      const dateFilter = document.getElementById('dateFilter')?.value || '';
+      const verificationFilter = document.getElementById('verificationFilter')?.value || '';
+
+      const combinedUsers = [
+        ...allUsers.map(user => ({...user, source: 'firebase'})),
+        ...allTelegramUsers.map(user => ({...user, source: 'telegram'}))
+      ];
+
+      filteredUsers = combinedUsers.filter(user => {
+        // Search filter
+        const searchMatch = !searchTerm || 
+          (user.telegramId && user.telegramId.toLowerCase().includes(searchTerm)) ||
+          (user.email && user.email.toLowerCase().includes(searchTerm)) ||
+          (user.displayName && user.displayName.toLowerCase().includes(searchTerm));
+
+        // Date filter
+        let dateMatch = true;
+        if (dateFilter && user.createdAt) {
+          const userDate = new Date(user.createdAt);
+          const now = new Date();
+          
+          switch (dateFilter) {
+            case 'today':
+              dateMatch = userDate.toDateString() === now.toDateString();
+              break;
+            case 'week':
+              const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+              dateMatch = userDate >= weekAgo;
+              break;
+            case 'month':
+              const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+              dateMatch = userDate >= monthAgo;
+              break;
+          }
+        }
+
+        // Verification filter
+        const verificationMatch = !verificationFilter || 
+          (verificationFilter === 'verified' && user.verified === true) ||
+          (verificationFilter === 'pending' && user.verified !== true);
+
+        return searchMatch && dateMatch && verificationMatch;
+      });
+
+      renderUsersTable();
+    }
+
+    // Render users table
+    function renderUsersTable() {
+      const tbody = document.getElementById('usersTableBody');
+      tbody.innerHTML = '';
+
+      filteredUsers.forEach(user => {
+        const row = document.createElement('tr');
+        
+        // Format date
+        let formattedDate = 'N/A';
+        if (user.createdAt) {
+          try {
+            const date = new Date(user.createdAt);
+            formattedDate = date.toLocaleString('uz-UZ');
+          } catch (e) {
+            formattedDate = 'N/A';
+          }
+        }
+
+        // Get user orders count
+        const userOrders = allOrders.filter(order => 
+          order.user === user.telegramId || 
+          order.user === user.displayName || 
+          order.userUID === user.uid
+        ).length;
+
+        row.innerHTML = `
+          <td class="order-user">
+            ${user.telegramId || user.displayName || user.email || 'N/A'}
+          </td>
+          <td class="order-date">${formattedDate}</td>
+          <td>
+            <span class="order-type-badge ${user.source === 'telegram' ? 'type-gaming' : 'type-web'}">
+              ${user.source === 'telegram' ? '📱 Telegram' : '🔍 Google'}
+            </span>
+          </td>
+          <td>
+            <span class="status-${user.verified ? 'completed' : 'pending'}">
+              ${user.verified ? '✅ Tasdiqlangan' : '⏳ Kutilayotgan'}
+            </span>
+          </td>
+          <td class="order-price">${userOrders} ta</td>
+          <td class="order-actions">
+            <button class="btn-small btn-view" onclick="viewUser('${user.id}', '${user.source}')">👁️ Ko'rish</button>
+            <button class="btn-small btn-message" onclick="sendMessageToUser('${user.telegramId || user.id}', '${user.displayName || user.telegramId || 'Foydalanuvchi'}')">💬 Xabar</button>
+            <button class="btn-small btn-delete" onclick="deleteUser('${user.id}', '${user.source}')">🗑️ O'chirish</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // View user details
+    window.viewUser = function(userId, source) {
+      if (!isAuthenticated) return;
+      
+      const users = source === 'telegram' ? allTelegramUsers : allUsers;
+      const user = users.find(u => u.id === userId);
+      if (!user) return;
+
+      const userOrders = allOrders.filter(order => 
+        order.user === user.telegramId || 
+        order.user === user.displayName || 
+        order.userUID === user.uid
+      );
+
+      const modalContent = document.getElementById('modalContent');
+      modalContent.innerHTML = `
+        <div class="modal-section">
+          <h4>👤 Foydalanuvchi ma'lumotlari</h4>
+          <p><strong>ID:</strong> ${user.id}</p>
+          ${user.telegramId ? `<p><strong>Telegram ID:</strong> ${user.telegramId}</p>` : ''}
+          ${user.displayName ? `<p><strong>Ism:</strong> ${user.displayName}</p>` : ''}
+          ${user.email ? `<p><strong>Email:</strong> ${user.email}</p>` : ''}
+          ${user.phoneNumber ? `<p><strong>Telefon:</strong> ${user.phoneNumber}</p>` : ''}
+          <p><strong>Ro'yxatdan o'tish usuli:</strong> ${user.registrationMethod || user.authMethod || 'N/A'}</p>
+          <p><strong>Status:</strong> ${user.verified ? '✅ Tasdiqlangan' : '⏳ Kutilayotgan'}</p>
+        </div>
+
+        <div class="modal-section">
+          <h4>📅 Vaqt ma'lumotlari</h4>
+          <p><strong>Ro'yxatdan o'tgan:</strong> ${user.createdAt ? new Date(user.createdAt).toLocaleString('uz-UZ') : 'N/A'}</p>
+          <p><strong>Oxirgi kirish:</strong> ${user.lastLogin ? new Date(user.lastLogin).toLocaleString('uz-UZ') : 'N/A'}</p>
+        </div>
+
+        <div class="modal-section">
+          <h4>📋 Buyurtmalar (${userOrders.length} ta)</h4>
+          ${userOrders.length > 0 ? `
+            <div style="max-height: 200px; overflow-y: auto;">
+              ${userOrders.map(order => `
+                <div style="background: #f8fafc; padding: 0.5rem; border-radius: 0.5rem; margin-bottom: 0.5rem;">
+                  <strong>${order.type === 'gaming' ? '🎮 Gaming' : '🌐 Web'}</strong> - 
+                  ${order.status === 'completed' ? '✅' : order.status === 'approved' ? '🔄' : '⏳'} 
+                  ${new Date(order.createdAt).toLocaleDateString('uz-UZ')}
+                </div>
+              `).join('')}
+            </div>
+          ` : '<p>Hali buyurtmalar yo\'q</p>'}
+        </div>
+      `;
+
+      document.getElementById('orderModal').style.display = 'flex';
+    };
+
+    // Delete user
+    window.deleteUser = async function(userId, source) {
+      if (!isAuthenticated) return;
+      
+      if (!confirm('❌ Haqiqatan ham bu foydalanuvchini o\'chirishni xohlaysizmi?')) {
+        return;
+      }
+
+      try {
+        console.log('🗑️ Foydalanuvchi o\'chirilmoqda:', userId, source);
+        
+        const userRef = ref(database, `${source === 'telegram' ? 'telegram_users' : 'users'}/${userId}`);
+        await remove(userRef);
+        
+        console.log('✅ Foydalanuvchi o\'chirildi');
+        showNotification('✅ Foydalanuvchi o\'chirildi!', 'success');
+      } catch (error) {
+        console.error('❌ Foydalanuvchi o\'chirilmadi:', error);
+        showNotification('❌ Foydalanuvchi o\'chirilmadi! Xatolik: ' + error.message, 'error');
+      }
+    };
+
+    // Global variables for message sending
+    let currentRecipientId = '';
+    let currentRecipientName = '';
+
+    // Send message to user function
+    window.sendMessageToUser = function(telegramId, userName) {
+      if (!isAuthenticated) return;
+      
+      currentRecipientId = telegramId;
+      currentRecipientName = userName;
+      
+      document.getElementById('recipientId').textContent = telegramId;
+      document.getElementById('recipientName').textContent = userName;
+      document.getElementById('messageText').value = '';
+      
+      document.getElementById('messageModal').style.display = 'flex';
+    };
+
+    // Close message modal
+    window.closeMessageModal = function() {
+      document.getElementById('messageModal').style.display = 'none';
+      currentRecipientId = '';
+      currentRecipientName = '';
+    };
+
+    // Send message via Telegram bot
+    window.sendMessage = async function() {
+      const messageText = document.getElementById('messageText').value.trim();
+      const sendBtn = document.getElementById('sendMessageBtn');
+      
+      if (!messageText) {
+        showNotification('❌ Xabar matnini kiriting!', 'error');
+        return;
+      }
+      
+      if (!currentRecipientId) {
+        showNotification('❌ Qabul qiluvchi tanlanmagan!', 'error');
+        return;
+      }
+      
+      try {
+        sendBtn.classList.add('loading');
+        sendBtn.innerHTML = '<span>📤</span> Yuborilmoqda...';
+        
+        // Format message with owner signature
+        const formattedMessage = `📢 *ELBEK DESIGN STUDIO*
+
+${messageText}
+
+---
+👑 *Owner tomonidan yuborildi*
+📅 ${new Date().toLocaleString('uz-UZ')}
+
+📞 Bog'lanish: +998 90 406 30 90`;
+
+        // Send message via Telegram bot
+        const response = await fetch(`https://api.telegram.org/bot7606592691:AAEX0POICKvjbOEwNQuAdUn-wqcqKdl-Gvc/sendMessage`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            chat_id: currentRecipientId,
+            text: formattedMessage,
+            parse_mode: 'Markdown'
+          })
+        });
+
+        const data = await response.json();
+        
+        if (data.ok) {
+          // Save message to Firebase for history
+          await saveMessageHistory(currentRecipientId, currentRecipientName, messageText);
+          
+          showNotification(`✅ Xabar yuborildi: ${currentRecipientName}`, 'success');
+          closeMessageModal();
+        } else {
+          throw new Error(data.description || 'Telegram xatosi');
+        }
+        
+      } catch (error) {
+        console.error('❌ Xabar yuborishda xatolik:', error);
+        
+        if (error.message.includes('chat not found') || error.message.includes('user not found')) {
+          showNotification('❌ Foydalanuvchi topilmadi yoki bot bilan suhbat boshlamagan!', 'error');
+        } else if (error.message.includes('Forbidden')) {
+          showNotification('❌ Bot foydalanuvchiga xabar yubora olmadi!', 'error');
+        } else {
+          showNotification('❌ Xabar yuborishda xatolik: ' + error.message, 'error');
+        }
+      } finally {
+        sendBtn.classList.remove('loading');
+        sendBtn.innerHTML = '<span>📤</span> Xabar yuborish';
+      }
+    };
+
+    // Save message history to Firebase
+    async function saveMessageHistory(recipientId, recipientName, messageText) {
+      try {
+        const messageData = {
+          recipientId: recipientId,
+          recipientName: recipientName,
+          message: messageText,
+          sentBy: 'owner',
+          sentAt: new Date().toISOString(),
+          status: 'sent'
+        };
+        
+        const messagesRef = ref(database, 'owner_messages');
+        await push(messagesRef, messageData);
+        
+        console.log('✅ Xabar tarixi saqlandi');
+      } catch (error) {
+        console.error('❌ Xabar tarixini saqlashda xatolik:', error);
+      }
+    }
+
+    // Add event listeners for users filters
+    document.getElementById('userSearch')?.addEventListener('input', applyUsersFilters);
+    document.getElementById('dateFilter')?.addEventListener('change', applyUsersFilters);
+    document.getElementById('verificationFilter')?.addEventListener('change', applyUsersFilters);
 
     // Event listeners
     document.getElementById('statusFilter').addEventListener('change', applyFilters);
@@ -1396,15 +1758,32 @@ ${getStatusText(oldStatus)} → ${statusText}
       }
     });
 
+    // Close message modal on outside click
+    document.getElementById('messageModal')?.addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeMessageModal();
+      }
+    });
+
     // Security: Clear auth on page unload
     window.addEventListener('beforeunload', function() {
       if (!confirm('Sahifani yopishni xohlaysizmi?')) {
         sessionStorage.removeItem('ownerAuth');
       }
     });
-
-    // Make functions global
-    window.showNotification = showNotification;
   </script>
+
+  <style>
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  </style>
 </body>
 </html>
