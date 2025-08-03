@@ -702,6 +702,11 @@
           <div class="stat-number" id="completedOrders">0</div>
           <div class="stat-label">Tayyor</div>
         </div>
+        <div class="stat-card">
+          <div class="stat-icon">🔍</div>
+          <div class="stat-number" id="paymentPendingOrders">0</div>
+          <div class="stat-label">Tekshirilmoqda</div>
+        </div>
       </div>
 
       <!-- Send Notification Section -->
@@ -738,6 +743,7 @@
           <select id="statusFilter" class="filter-select">
             <option value="">Barchasi</option>
             <option value="pending">Kutilayotgan</option>
+            <option value="payment_pending">Tekshirilmoqda</option>
             <option value="approved">Tasdiqlangan</option>
             <option value="completed">Tayyor</option>
           </select>
@@ -1014,11 +1020,13 @@
       const pendingOrders = allOrders.filter(order => order.status === 'pending').length;
       const approvedOrders = allOrders.filter(order => order.status === 'approved').length;
       const completedOrders = allOrders.filter(order => order.status === 'completed').length;
+      const paymentPendingOrders = allOrders.filter(order => order.status === 'payment_pending').length;
 
       document.getElementById('totalOrders').textContent = totalOrders;
       document.getElementById('pendingOrders').textContent = pendingOrders;
       document.getElementById('approvedOrders').textContent = approvedOrders;
       document.getElementById('completedOrders').textContent = completedOrders;
+      document.getElementById('paymentPendingOrders').textContent = paymentPendingOrders;
     }
 
     // Apply filters
@@ -1078,6 +1086,7 @@
           <td>
             <select class="status-select status-${order.status || 'pending'}" onchange="updateOrderStatus('${order.id}', this.value)">
               <option value="pending" ${(order.status || 'pending') === 'pending' ? 'selected' : ''}>⏳ Kutilayotgan</option>
+              <option value="payment_pending" ${order.status === 'payment_pending' ? 'selected' : ''}>🔍 Tekshirilmoqda</option>
               <option value="approved" ${order.status === 'approved' ? 'selected' : ''}>✅ Tasdiqlangan</option>
               <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>🎉 Tayyor</option>
             </select>
@@ -1158,6 +1167,21 @@
           ${order.features && order.features.length > 0 ? `<p><strong>Funksiyalar:</strong> ${order.features.join(', ')}</p>` : ''}
         </div>
 
+        ${order.paymentInfo ? `
+<div class="modal-section">
+  <h4>💳 To'lov ma'lumotlari</h4>
+  <p><strong>To'lov holati:</strong> ${order.paymentInfo.confirmed ? '✅ Tasdiqlangan' : '❌ Tasdiqlanmagan'}</p>
+  <p><strong>To'lov sanasi:</strong> ${order.paymentInfo.paymentDate ? new Date(order.paymentInfo.paymentDate).toLocaleString('uz-UZ') : 'N/A'}</p>
+  <p><strong>Chek:</strong></p>
+  ${order.paymentInfo.receiptFileType === 'application/pdf' ? 
+    `<a href="${order.paymentInfo.receiptURL}" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--primary); color: white; text-decoration: none; border-radius: 0.5rem; margin-top: 0.5rem;">
+      📄 PDF chekni yuklab olish
+    </a>` :
+    `<img src="${order.paymentInfo.receiptURL}" alt="To'lov cheki" style="max-width: 100%; height: auto; border-radius: 0.5rem; margin-top: 0.5rem; cursor: pointer;" onclick="window.open('${order.paymentInfo.receiptURL}', '_blank')">`
+  }
+</div>
+` : ''}
+
         <div class="modal-section">
           <h4>📅 Vaqt ma'lumotlari</h4>
           <p><strong>Yaratilgan:</strong> ${order.createdAt ? new Date(order.createdAt).toLocaleString('uz-UZ') : 'N/A'}</p>
@@ -1200,6 +1224,7 @@
     function getStatusText(status) {
       switch (status) {
         case 'pending': return '⏳ Kutilayotgan';
+        case 'payment_pending': return '🔍 Tekshirilmoqda';
         case 'approved': return '✅ Tasdiqlangan';
         case 'completed': return '🎉 Tayyor';
         default: return '⏳ Kutilayotgan';
