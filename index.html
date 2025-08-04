@@ -1,1285 +1,1289 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Owner Panel - Elbek Design Studio</title>
-<link rel="icon" href="/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" type="image/png">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  :root {
-    --primary: #6366f1;
-    --primary-dark: #4f46e5;
-    --secondary: #8b5cf6;
-    --accent: #06b6d4;
-    --dark: #0f172a;
-    --light: #f8fafc;
-    --gray: #64748b;
-    --white: #ffffff;
-    --success: #22c55e;
-    --error: #ef4444;
-    --warning: #f59e0b;
-    --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    --shadow: 0 10px 40px rgba(99, 102, 241, 0.1);
-    --shadow-hover: 0 20px 60px rgba(99, 102, 241, 0.2);
-  }
-
-  body {
-    font-family: 'Poppins', sans-serif;
-    background: var(--light);
-    line-height: 1.6;
-    color: var(--dark);
-    min-height: 100vh;
-  }
-
-  /* Login Screen */
-  .login-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--gradient);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-  }
-
-  .login-container {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 2rem;
-    padding: 3rem;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: var(--shadow-hover);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    text-align: center;
-    animation: slideUp 0.8s ease-out;
-  }
-
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(50px);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Owner Panel - Elbek Design Studio</title>
+  <link rel="icon" href="/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #8b5cf6;
+      --accent: #06b6d4;
+      --dark: #0f172a;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --white: #ffffff;
+      --success: #22c55e;
+      --error: #ef4444;
+      --warning: #f59e0b;
+      --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      --shadow: 0 10px 40px rgba(99, 102, 241, 0.1);
+      --shadow-hover: 0 20px 60px rgba(99, 102, 241, 0.2);
     }
-  }
 
-  .login-logo {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin: 0 auto 1rem;
-    border: 4px solid var(--primary);
-    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-  }
-
-  .login-title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--dark);
-    margin-bottom: 0.5rem;
-  }
-
-  .login-subtitle {
-    color: var(--gray);
-    font-size: 1rem;
-    margin-bottom: 2rem;
-    font-weight: 300;
-  }
-
-  .gradient-text {
-    background: var(--gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .login-form {
-    margin-bottom: 2rem;
-  }
-
-  .login-input {
-    width: 100%;
-    padding: 1rem 1.5rem;
-    border: 2px solid #e2e8f0;
-    border-radius: 1rem;
-    font-size: 1rem;
-    background: var(--white);
-    color: var(--dark);
-    transition: all 0.3s ease;
-    font-family: 'Poppins', sans-serif;
-    margin-bottom: 1rem;
-  }
-
-  .login-input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-    transform: translateY(-2px);
-  }
-
-  .login-btn {
-    width: 100%;
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 1rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    font-family: 'Poppins', sans-serif;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: var(--gradient);
-    color: var(--white);
-    box-shadow: var(--shadow);
-  }
-
-  .login-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-hover);
-  }
-
-  .login-error {
-    color: var(--error);
-    font-size: 0.9rem;
-    margin-top: 1rem;
-    display: none;
-  }
-
-  /* Header */
-  .header {
-    background: var(--white);
-    box-shadow: var(--shadow);
-    padding: 1rem 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    backdrop-filter: blur(20px);
-  }
-
-  .header-content {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2rem;
-  }
-
-  .logo-section {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .logo {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 3px solid var(--primary);
-  }
-
-  .brand-name {
-    font-size: 1.5rem;
-    font-weight: 700;
-    background: var(--gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .owner-badge {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-    border-radius: 2rem;
-    color: var(--white);
-    font-weight: 600;
-    box-shadow: var(--shadow);
-  }
-
-  .logout-btn {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--error);
-    border: 2px solid rgba(239, 68, 68, 0.2);
-    padding: 0.5rem 1rem;
-    border-radius: 0.75rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-left: 1rem;
-  }
-
-  .logout-btn:hover {
-    background: var(--error);
-    color: var(--white);
-  }
-
-  /* Main Content */
-  .main {
-    margin-top: 100px;
-    padding: 2rem;
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .page-title {
-    text-align: center;
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    background: var(--gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .page-subtitle {
-    text-align: center;
-    color: var(--gray);
-    font-size: 1.1rem;
-    margin-bottom: 3rem;
-    font-weight: 300;
-  }
-
-  /* Stats Cards */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
-  }
-
-  .stat-card {
-    background: var(--white);
-    border-radius: 1.5rem;
-    padding: 2rem;
-    box-shadow: var(--shadow);
-    text-align: center;
-    transition: all 0.3s ease;
-  }
-
-  .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
-  }
-
-  .stat-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-  }
-
-  .stat-number {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 0.5rem;
-  }
-
-  .stat-label {
-    color: var(--gray);
-    font-weight: 500;
-  }
-
-  /* Filters */
-  .filters {
-    background: var(--white);
-    border-radius: 1.5rem;
-    padding: 1.5rem;
-    box-shadow: var(--shadow);
-    margin-bottom: 2rem;
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .filter-group {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .filter-select {
-    padding: 0.75rem 1rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 0.75rem;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.9rem;
-    background: var(--white);
-    color: var(--dark);
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .filter-select:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-  }
-
-  /* Loading */
-  .loading {
-    text-align: center;
-    padding: 3rem;
-    color: var(--gray);
-  }
-
-  .loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 4px solid #e5e7eb;
-    border-top: 4px solid var(--primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 1rem;
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  /* Orders Table */
-  .orders-container {
-    background: var(--white);
-    border-radius: 1.5rem;
-    box-shadow: var(--shadow);
-    overflow: hidden;
-  }
-
-  .orders-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .orders-table th,
-  .orders-table td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid #f1f5f9;
-  }
-
-  .orders-table th {
-    background: var(--light);
-    font-weight: 600;
-    color: var(--dark);
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .orders-table tr:hover {
-    background: rgba(99, 102, 241, 0.02);
-  }
-
-  .order-user {
-    font-weight: 600;
-    color: var(--primary);
-  }
-
-  .order-type-badge {
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-
-  .type-gaming {
-    background: rgba(99, 102, 241, 0.1);
-    color: var(--primary);
-  }
-
-  .type-web {
-    background: rgba(139, 92, 246, 0.1);
-    color: var(--secondary);
-  }
-
-  .status-select {
-    padding: 0.5rem 0.75rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 0.5rem;
-    font-size: 0.85rem;
-    font-family: 'Poppins', sans-serif;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .status-select:focus {
-    outline: none;
-    border-color: var(--primary);
-  }
-
-  .status-pending { color: var(--warning); }
-  .status-approved { color: var(--success); }
-  .status-completed { color: var(--primary); }
-
-  .order-price {
-    font-weight: 600;
-    color: var(--success);
-  }
-
-  .order-date {
-    color: var(--gray);
-    font-size: 0.85rem;
-  }
-
-  .order-actions {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .btn-small {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 0.5rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: 'Poppins', sans-serif;
-  }
-
-  .btn-view {
-    background: rgba(99, 102, 241, 0.1);
-    color: var(--primary);
-  }
-
-  .btn-view:hover {
-    background: var(--primary);
-    color: var(--white);
-  }
-
-  .btn-delete {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--error);
-  }
-
-  .btn-delete:hover {
-    background: var(--error);
-    color: var(--white);
-  }
-
-  /* Modal */
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    animation: fadeIn 0.3s ease;
-  }
-
-  .modal {
-    background: var(--white);
-    border-radius: 2rem;
-    padding: 2rem;
-    max-width: 600px;
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
-    position: relative;
-    animation: modalSlide 0.5s ease;
-    box-shadow: var(--shadow-hover);
-  }
-
-  @keyframes modalSlide {
-    from {
-      opacity: 0;
-      transform: translateY(-50px) scale(0.9);
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--light);
+      line-height: 1.6;
+      color: var(--dark);
+      min-height: 100vh;
     }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
+
+    /* Login Screen */
+    .login-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
     }
-  }
 
-  .modal-close {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: var(--gray);
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
+    .login-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 2rem;
+      padding: 3rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: var(--shadow-hover);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: center;
+      animation: slideUp 0.8s ease-out;
+    }
 
-  .modal-close:hover {
-    color: var(--primary);
-  }
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-  .modal-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    color: var(--primary);
-  }
+    .login-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      border: 4px solid var(--primary);
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+    }
 
-  .modal-content {
-    line-height: 1.8;
-  }
+    .login-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
 
-  .modal-section {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #f1f5f9;
-  }
+    .login-subtitle {
+      color: var(--gray);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
 
-  .modal-section:last-child {
-    border-bottom: none;
-  }
+    .gradient-text {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-  .modal-section h4 {
-    color: var(--primary);
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
-  }
+    .login-form {
+      margin-bottom: 2rem;
+    }
 
-  /* Empty State */
-  .empty-state {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: var(--gray);
-  }
+    .login-input {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 1rem;
+      font-size: 1rem;
+      background: var(--white);
+      color: var(--dark);
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+      margin-bottom: 1rem;
+    }
 
-  .empty-icon {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-    opacity: 0.5;
-  }
+    .login-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+      transform: translateY(-2px);
+    }
 
-  /* Responsive */
-  @media (max-width: 768px) {
+    .login-btn {
+      width: 100%;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 1rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: var(--gradient);
+      color: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .login-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .login-error {
+      color: var(--error);
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    /* Header */
+    .header {
+      background: var(--white);
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      backdrop-filter: blur(20px);
+    }
+
     .header-content {
-      padding: 0 1rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
     }
 
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 3px solid var(--primary);
+    }
+
+    .brand-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .owner-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+      border-radius: 2rem;
+      color: var(--white);
+      font-weight: 600;
+      box-shadow: var(--shadow);
+    }
+
+    .logout-btn {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--error);
+      border: 2px solid rgba(239, 68, 68, 0.2);
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-left: 1rem;
+    }
+
+    .logout-btn:hover {
+      background: var(--error);
+      color: var(--white);
+    }
+
+    /* Main Content */
     .main {
-      padding: 1rem;
+      margin-top: 100px;
+      padding: 2rem;
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .page-title {
-      font-size: 2rem;
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
+    .page-subtitle {
+      text-align: center;
+      color: var(--gray);
+      font-size: 1.1rem;
+      margin-bottom: 3rem;
+      font-weight: 300;
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .stat-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: var(--gray);
+      font-weight: 500;
+    }
+
+    /* Filters */
     .filters {
-      flex-direction: column;
-      align-items: stretch;
+      background: var(--white);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .filter-select {
+      padding: 0.75rem 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 0.75rem;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.9rem;
+      background: var(--white);
+      color: var(--dark);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--gray);
+    }
+
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #e5e7eb;
+      border-top: 4px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Orders Table */
+    .orders-container {
+      background: var(--white);
+      border-radius: 1.5rem;
+      box-shadow: var(--shadow);
+      overflow: hidden;
     }
 
     .orders-table {
-      font-size: 0.85rem;
+      width: 100%;
+      border-collapse: collapse;
     }
 
     .orders-table th,
     .orders-table td {
-      padding: 0.75rem 0.5rem;
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .orders-table th {
+      background: var(--light);
+      font-weight: 600;
+      color: var(--dark);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .orders-table tr:hover {
+      background: rgba(99, 102, 241, 0.02);
+    }
+
+    .order-user {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .order-type-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .type-gaming {
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+    }
+
+    .type-web {
+      background: rgba(139, 92, 246, 0.1);
+      color: var(--secondary);
+    }
+
+    .status-select {
+      padding: 0.5rem 0.75rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .status-select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .status-pending { color: var(--warning); }
+    .status-approved { color: var(--success); }
+    .status-completed { color: var(--primary); }
+
+    .order-price {
+      font-weight: 600;
+      color: var(--success);
+    }
+
+    .order-date {
+      color: var(--gray);
+      font-size: 0.85rem;
+    }
+
+    .order-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-small {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .btn-view {
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+    }
+
+    .btn-view:hover {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .btn-delete {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--error);
+    }
+
+    .btn-delete:hover {
+      background: var(--error);
+      color: var(--white);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      animation: fadeIn 0.3s ease;
     }
 
     .modal {
-      margin: 1rem;
-      width: calc(100% - 2rem);
-    }
-
-    .login-container {
-      margin: 1rem;
-      width: calc(100% - 2rem);
+      background: var(--white);
+      border-radius: 2rem;
       padding: 2rem;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      animation: modalSlide 0.5s ease;
+      box-shadow: var(--shadow-hover);
     }
-  }
 
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
+    @keyframes modalSlide {
+      from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
 
-  /* Hidden class */
-  .hidden {
-    display: none !important;
-  }
-</style>
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--gray);
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .modal-close:hover {
+      color: var(--primary);
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+    }
+
+    .modal-content {
+      line-height: 1.8;
+    }
+
+    .modal-section {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .modal-section:last-child {
+      border-bottom: none;
+    }
+
+    .modal-section h4 {
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--gray);
+    }
+
+    .empty-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content {
+        padding: 0 1rem;
+      }
+
+      .main {
+        padding: 1rem;
+      }
+
+      .page-title {
+        font-size: 2rem;
+      }
+
+      .filters {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .orders-table {
+        font-size: 0.85rem;
+      }
+
+      .orders-table th,
+      .orders-table td {
+        padding: 0.75rem 0.5rem;
+      }
+
+      .modal {
+        margin: 1rem;
+        width: calc(100% - 2rem);
+      }
+
+      .login-container {
+        margin: 1rem;
+        width: calc(100% - 2rem);
+        padding: 2rem;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Hidden class */
+    .hidden {
+      display: none !important;
+    }
+  </style>
 </head>
 <body>
-<!-- Login Screen -->
-<div class="login-screen" id="loginScreen">
-  <div class="login-container">
-    <img src="/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Logo" class="login-logo">
-    <h1 class="login-title">
-      <span class="gradient-text">Owner Panel</span>
-    </h1>
-    <p class="login-subtitle">Tizimga kirish uchun parolni kiriting</p>
-    
-    <form class="login-form" id="loginForm">
-      <input 
-        type="password" 
-        id="passwordInput" 
-        class="login-input" 
-        placeholder="🔐 Owner paroli" 
-        required
-        autocomplete="current-password"
-      >
-      <button type="submit" class="login-btn">
-        🔓 Tizimga kirish
-      </button>
-    </form>
-    
-    <div class="login-error" id="loginError">
-      ❌ Noto'g'ri parol! Qayta urinib ko'ring.
-    </div>
-  </div>
-</div>
-
-<!-- Main Dashboard -->
-<div id="dashboard" class="hidden">
-  <!-- Header -->
-  <header class="header">
-    <div class="header-content">
-      <div class="logo-section">
-        <img src="/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Logo" class="logo">
-        <div class="brand-name">Elbek Design Studio</div>
-      </div>
-      <div style="display: flex; align-items: center;">
-        <div class="owner-badge">
-          <span>👑</span>
-          <span>Owner Panel</span>
-        </div>
-        <button class="logout-btn" onclick="logout()">
-          🚪 Chiqish
+  <!-- Login Screen -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-container">
+      <img src="/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Logo" class="login-logo">
+      <h1 class="login-title">
+        <span class="gradient-text">Owner Panel</span>
+      </h1>
+      <p class="login-subtitle">Tizimga kirish uchun parolni kiriting</p>
+      
+      <form class="login-form" id="loginForm">
+        <input 
+          type="password" 
+          id="passwordInput" 
+          class="login-input" 
+          placeholder="🔐 Owner paroli" 
+          required
+          autocomplete="current-password"
+        >
+        <button type="submit" class="login-btn">
+          🔓 Tizimga kirish
         </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main Content -->
-  <main class="main">
-    <h1 class="page-title">👑 Owner Dashboard</h1>
-    <p class="page-subtitle">Barcha buyurtmalarni boshqaring va statuslarini yangilang</p>
-
-    <!-- Stats Grid -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon">📊</div>
-        <div class="stat-number" id="totalOrders">0</div>
-        <div class="stat-label">Jami buyurtmalar</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">⏳</div>
-        <div class="stat-number" id="pendingOrders">0</div>
-        <div class="stat-label">Kutilayotgan</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">✅</div>
-        <div class="stat-number" id="approvedOrders">0</div>
-        <div class="stat-label">Tasdiqlangan</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">🎉</div>
-        <div class="stat-number" id="completedOrders">0</div>
-        <div class="stat-label">Tayyor</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">🔍</div>
-        <div class="stat-number" id="paymentPendingOrders">0</div>
-        <div class="stat-label">Tekshirilmoqda</div>
-      </div>
-    </div>
-
-    <!-- Send Notification Section -->
-    <div style="background: var(--white); border-radius: 1.5rem; padding: 2rem; box-shadow: var(--shadow); margin-bottom: 2rem;">
-      <h3 style="color: var(--primary); margin-bottom: 1.5rem; font-size: 1.3rem; display: flex; align-items: center; gap: 0.5rem;">
-        <span>📢</span> Foydalanuvchilarga habar yuborish
-      </h3>
+      </form>
       
-      <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: start;">
-        <div>
-          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">👤 Foydalanuvchi tanlang:</label>
-          <select id="userSelect" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; font-family: 'Poppins', sans-serif;">
-            <option value="">-- Foydalanuvchi tanlang --</option>
-          </select>
-          <button onclick="loadUsers()" style="width: 100%; margin-top: 0.5rem; padding: 0.5rem; background: var(--primary); color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
-            🔄 Foydalanuvchilarni yuklash
-          </button>
-        </div>
-        
-        <div>
-          <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">📝 Habar matni:</label>
-          <textarea id="messageText" placeholder="Habar matnini kiriting..." style="width: 100%; height: 100px; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; font-family: 'Poppins', sans-serif; resize: vertical;"></textarea>
-          <button onclick="sendNotification()" style="width: 100%; margin-top: 0.5rem; padding: 0.75rem; background: var(--gradient); color: white; border: none; border-radius: 0.75rem; font-weight: 600; cursor: pointer;">
-            📤 Habar yuborish
-          </button>
-        </div>
+      <div class="login-error" id="loginError">
+        ❌ Noto'g'ri parol! Qayta urinib ko'ring.
       </div>
-    </div>
-
-    <!-- Filters -->
-    <div class="filters">
-      <div class="filter-group">
-        <label>📋 Status:</label>
-        <select id="statusFilter" class="filter-select">
-          <option value="">Barchasi</option>
-          <option value="pending">Kutilayotgan</option>
-          <option value="payment_pending">Tekshirilmoqda</option>
-          <option value="approved">Tasdiqlangan</option>
-          <option value="completed">Tayyor</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label>🎯 Tur:</label>
-        <select id="typeFilter" class="filter-select">
-          <option value="">Barchasi</option>
-          <option value="gaming">Gaming Dizayn</option>
-          <option value="web">Web Dizayn</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Loading State -->
-    <div id="loadingState" class="loading">
-      <div class="loading-spinner"></div>
-      <p>Buyurtmalar yuklanmoqda...</p>
-    </div>
-
-    <!-- Orders Container -->
-    <div id="ordersContainer" class="orders-container" style="display: none;">
-      <table class="orders-table">
-        <thead>
-          <tr>
-            <th>👤 Foydalanuvchi</th>
-            <th>📧 Email</th>
-            <th>📱 Telefon</th>
-            <th>🎯 Tur</th>
-            <th>💰 Narx</th>
-            <th>📅 Sana</th>
-            <th>📊 Status</th>
-            <th>⚙️ Amallar</th>
-          </tr>
-        </thead>
-        <tbody id="ordersTableBody">
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Empty State -->
-    <div id="emptyState" class="empty-state" style="display: none;">
-      <div class="empty-icon">📦</div>
-      <h3>Hali buyurtmalar yo'q</h3>
-      <p>Buyurtmalar kelganda bu yerda ko'rinadi</p>
-    </div>
-  </main>
-</div>
-
-<!-- Order Details Modal -->
-<div class="modal-overlay" id="orderModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal()">×</button>
-    <h3 class="modal-title">📋 Buyurtma tafsilotlari</h3>
-    <div class="modal-content" id="modalContent">
-      <!-- Content will be populated by JavaScript -->
     </div>
   </div>
-</div>
 
-<!-- Firebase SDK -->
-<script type="module">
-  // Import Firebase functions
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-  import { getDatabase, ref, onValue, update, remove, orderByChild, query, push } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
-
-  // Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyA_B0OC6Y91ontwJWM-o615jg7Dr5jUVvA",
-    authDomain: "dizaynowner.firebaseapp.com",
-    databaseURL: "https://dizaynowner-default-rtdb.firebaseio.com/",
-    projectId: "dizaynowner",
-    storageBucket: "dizaynowner.firebasestorage.app",
-    messagingSenderId: "976762018041",
-    appId: "1:976762018041:web:e43227005165059158ea28",
-    measurementId: "G-0S6KV8DFKJ"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const database = getDatabase(app);
-
-  // Owner password (in real app, this should be more secure)
-  const OWNER_PASSWORD = "elbek2025admin";
-
-  let allOrders = [];
-  let filteredOrders = [];
-  let isAuthenticated = false;
-
-  // Check if already authenticated
-  if (sessionStorage.getItem('ownerAuth') === 'true') {
-    showDashboard();
-  }
-
-  // Login form handler
-  document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const password = document.getElementById('passwordInput').value;
-    
-    if (password === OWNER_PASSWORD) {
-      sessionStorage.setItem('ownerAuth', 'true');
-      showDashboard();
-    } else {
-      document.getElementById('loginError').style.display = 'block';
-      document.getElementById('passwordInput').value = '';
-      
-      // Hide error after 3 seconds
-      setTimeout(() => {
-        document.getElementById('loginError').style.display = 'none';
-      }, 3000);
-    }
-  });
-
-  // Show dashboard
-  function showDashboard() {
-    isAuthenticated = true;
-    document.getElementById('loginScreen').classList.add('hidden');
-    document.getElementById('dashboard').classList.remove('hidden');
-    loadOrders();
-  }
-
-  // Logout function
-  window.logout = function() {
-    if (confirm('Haqiqatan ham tizimdan chiqishni xohlaysizmi?')) {
-      sessionStorage.removeItem('ownerAuth');
-      location.reload();
-    }
-  };
-
-  // Load all orders from Firebase Realtime Database
-  function loadOrders() {
-    if (!isAuthenticated) return;
-
-    const loadingState = document.getElementById('loadingState');
-    const ordersContainer = document.getElementById('ordersContainer');
-    const emptyState = document.getElementById('emptyState');
-
-    console.log('🔥 Firebase Realtime Database dan ma\'lumotlar yuklanmoqda...');
-
-    // Listen for real-time updates from Firebase
-    const ordersRef = ref(database, 'orders');
-    onValue(ordersRef, (snapshot) => {
-      loadingState.style.display = 'none';
-      
-      allOrders = [];
-      
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        
-        // Convert Firebase object to array
-        Object.keys(data).forEach(key => {
-          const order = data[key];
-          order.id = key; // Add Firebase key as ID
-          allOrders.push(order);
-        });
-
-        // Sort by creation date (newest first)
-        allOrders.sort((a, b) => {
-          const dateA = a.createdAt ? new Date(a.createdAt) : new Date(0);
-          const dateB = b.createdAt ? new Date(b.createdAt) : new Date(0);
-          return dateB - dateA;
-        });
-
-        console.log('✅ Firebase dan yuklandi:', allOrders.length, 'ta buyurtma');
-      } else {
-        console.log('📦 Firebase da buyurtmalar yo\'q');
-      }
-
-      updateStats();
-      applyFilters();
-      
-      if (allOrders.length === 0) {
-        emptyState.style.display = 'block';
-        ordersContainer.style.display = 'none';
-      } else {
-        emptyState.style.display = 'none';
-        ordersContainer.style.display = 'block';
-      }
-    }, (error) => {
-      console.error('❌ Firebase xatosi:', error);
-      loadingState.innerHTML = `
-        <div style="color: var(--error);">
-          <p>❌ Firebase bilan bog'lanishda xatolik!</p>
-          <p style="font-size: 0.9rem; margin-top: 0.5rem;">Xatolik: ${error.message}</p>
-          <button onclick="location.reload()" class="btn-small" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
-            🔄 Qayta yuklash
+  <!-- Main Dashboard -->
+  <div id="dashboard" class="hidden">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo-section">
+          <img src="/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" alt="Logo" class="logo">
+          <div class="brand-name">Elbek Design Studio</div>
+        </div>
+        <div style="display: flex; align-items: center;">
+          <div class="owner-badge">
+            <span>👑</span>
+            <span>Owner Panel</span>
+          </div>
+          <button class="logout-btn" onclick="logout()">
+            🚪 Chiqish
           </button>
         </div>
-      `;
-    });
-  }
+      </div>
+    </header>
 
-  // Load users for notification
-  window.loadUsers = async function() {
-    if (!isAuthenticated) return;
-    
-    try {
-      const userSelect = document.getElementById('userSelect');
-      userSelect.innerHTML = '<option value="">-- Yuklanmoqda... --</option>';
+    <!-- Main Content -->
+    <main class="main">
+      <h1 class="page-title">👑 Owner Dashboard</h1>
+      <p class="page-subtitle">Barcha buyurtmalarni boshqaring va statuslarini yangilang</p>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📊</div>
+          <div class="stat-number" id="totalOrders">0</div>
+          <div class="stat-label">Jami buyurtmalar</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⏳</div>
+          <div class="stat-number" id="pendingOrders">0</div>
+          <div class="stat-label">Kutilayotgan</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-number" id="approvedOrders">0</div>
+          <div class="stat-label">Tasdiqlangan</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎉</div>
+          <div class="stat-number" id="completedOrders">0</div>
+          <div class="stat-label">Tayyor</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🔍</div>
+          <div class="stat-number" id="paymentPendingOrders">0</div>
+          <div class="stat-label">Tekshirilmoqda</div>
+        </div>
+      </div>
+
+      <!-- Send Notification Section -->
+      <div style="background: var(--white); border-radius: 1.5rem; padding: 2rem; box-shadow: var(--shadow); margin-bottom: 2rem;">
+        <h3 style="color: var(--primary); margin-bottom: 1.5rem; font-size: 1.3rem; display: flex; align-items: center; gap: 0.5rem;">
+          <span>📢</span> Foydalanuvchilarga habar yuborish
+        </h3>
+        
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: start;">
+          <div>
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">👤 Foydalanuvchi tanlang:</label>
+            <select id="userSelect" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; font-family: 'Poppins', sans-serif;">
+              <option value="">-- Foydalanuvchi tanlang --</option>
+            </select>
+            <button onclick="loadUsers()" style="width: 100%; margin-top: 0.5rem; padding: 0.5rem; background: var(--primary); color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
+              🔄 Foydalanuvchilarni yuklash
+            </button>
+          </div>
+          
+          <div>
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">📝 Habar matni:</label>
+            <textarea id="messageText" placeholder="Habar matnini kiriting..." style="width: 100%; height: 100px; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; font-family: 'Poppins', sans-serif; resize: vertical;"></textarea>
+            <button onclick="sendNotification()" style="width: 100%; margin-top: 0.5rem; padding: 0.75rem; background: var(--gradient); color: white; border: none; border-radius: 0.75rem; font-weight: 600; cursor: pointer;">
+              📤 Habar yuborish
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters">
+        <div class="filter-group">
+          <label>📋 Status:</label>
+          <select id="statusFilter" class="filter-select">
+            <option value="">Barchasi</option>
+            <option value="pending">Kutilayotgan</option>
+            <option value="payment_pending">Tekshirilmoqda</option>
+            <option value="approved">Tasdiqlangan</option>
+            <option value="completed">Tayyor</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>🎯 Tur:</label>
+          <select id="typeFilter" class="filter-select">
+            <option value="">Barchasi</option>
+            <option value="gaming">Gaming Dizayn</option>
+            <option value="web">Web Dizayn</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div id="loadingState" class="loading">
+        <div class="loading-spinner"></div>
+        <p>Buyurtmalar yuklanmoqda...</p>
+      </div>
+
+      <!-- Orders Container -->
+      <div id="ordersContainer" class="orders-container" style="display: none;">
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th>👤 Foydalanuvchi</th>
+              <th>📧 Email</th>
+              <th>📱 Telefon</th>
+              <th>🎯 Tur</th>
+              <th>💰 Narx</th>
+              <th>📅 Sana</th>
+              <th>📊 Status</th>
+              <th>⚙️ Amallar</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTableBody">
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="empty-state" style="display: none;">
+        <div class="empty-icon">📦</div>
+        <h3>Hali buyurtmalar yo'q</h3>
+        <p>Buyurtmalar kelganda bu yerda ko'rinadi</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Order Details Modal -->
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <h3 class="modal-title">📋 Buyurtma tafsilotlari</h3>
+      <div class="modal-content" id="modalContent">
+        <!-- Content will be populated by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    // Import Firebase functions
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getDatabase, ref, onValue, update, remove, orderByChild, query, push } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyA_B0OC6Y91ontwJWM-o615jg7Dr5jUVvA",
+      authDomain: "dizaynowner.firebaseapp.com",
+      databaseURL: "https://dizaynowner-default-rtdb.firebaseio.com/",
+      projectId: "dizaynowner",
+      storageBucket: "dizaynowner.firebasestorage.app",
+      messagingSenderId: "976762018041",
+      appId: "1:976762018041:web:e43227005165059158ea28",
+      measurementId: "G-0S6KV8DFKJ"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // Owner password (in real app, this should be more secure)
+    const OWNER_PASSWORD = "elbek2025admin";
+
+    let allOrders = [];
+    let filteredOrders = [];
+    let isAuthenticated = false;
+
+    // Check if already authenticated
+    if (sessionStorage.getItem('ownerAuth') === 'true') {
+      showDashboard();
+    }
+
+    // Login form handler
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const password = document.getElementById('passwordInput').value;
       
-      const usersRef = ref(database, 'users');
-      onValue(usersRef, (snapshot) => {
-        userSelect.innerHTML = '<option value="">-- Foydalanuvchi tanlang --</option>';
+      if (password === OWNER_PASSWORD) {
+        sessionStorage.setItem('ownerAuth', 'true');
+        showDashboard();
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+        document.getElementById('passwordInput').value = '';
+        
+        // Hide error after 3 seconds
+        setTimeout(() => {
+          document.getElementById('loginError').style.display = 'none';
+        }, 3000);
+      }
+    });
+
+    // Show dashboard
+    function showDashboard() {
+      isAuthenticated = true;
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+      loadOrders();
+    }
+
+    // Logout function
+    window.logout = function() {
+      if (confirm('Haqiqatan ham tizimdan chiqishni xohlaysizmi?')) {
+        sessionStorage.removeItem('ownerAuth');
+        location.reload();
+      }
+    };
+
+    // Load all orders from Firebase Realtime Database
+    function loadOrders() {
+      if (!isAuthenticated) return;
+
+      const loadingState = document.getElementById('loadingState');
+      const ordersContainer = document.getElementById('ordersContainer');
+      const emptyState = document.getElementById('emptyState');
+
+      console.log('🔥 Firebase Realtime Database dan ma\'lumotlar yuklanmoqda...');
+
+      // Listen for real-time updates from Firebase
+      const ordersRef = ref(database, 'orders');
+      onValue(ordersRef, (snapshot) => {
+        loadingState.style.display = 'none';
+        
+        allOrders = [];
         
         if (snapshot.exists()) {
-          const users = snapshot.val();
-          Object.keys(users).forEach(uid => {
-            const user = users[uid];
-            const displayName = user.displayName || user.phoneNumber || user.email || uid;
-            userSelect.innerHTML += `<option value="${displayName}">${displayName}</option>`;
+          const data = snapshot.val();
+          
+          // Convert Firebase object to array
+          Object.keys(data).forEach(key => {
+            const order = data[key];
+            order.id = key; // Add Firebase key as ID
+            allOrders.push(order);
           });
-          console.log('✅ Foydalanuvchilar yuklandi');
+
+          // Sort by creation date (newest first)
+          allOrders.sort((a, b) => {
+            const dateA = a.createdAt ? new Date(a.createdAt) : new Date(0);
+            const dateB = b.createdAt ? new Date(b.createdAt) : new Date(0);
+            return dateB - dateA;
+          });
+
+          console.log('✅ Firebase dan yuklandi:', allOrders.length, 'ta buyurtma');
         } else {
-          userSelect.innerHTML = '<option value="">-- Foydalanuvchilar yo\'q --</option>';
+          console.log('📦 Firebase da buyurtmalar yo\'q');
         }
-      });
-    } catch (error) {
-      console.error('❌ Foydalanuvchilarni yuklashda xatolik:', error);
-      showNotification('❌ Foydalanuvchilarni yuklashda xatolik!', 'error');
-    }
-  };
 
-  // Send notification to user
-  window.sendNotification = async function() {
-    if (!isAuthenticated) return;
-    
-    const selectedUser = document.getElementById('userSelect').value;
-    const messageText = document.getElementById('messageText').value.trim();
-    
-    if (!selectedUser) {
-      showNotification('❌ Foydalanuvchini tanlang!', 'error');
-      return;
-    }
-    
-    if (!messageText) {
-      showNotification('❌ Habar matnini kiriting!', 'error');
-      return;
-    }
-    
-    try {
-      const notificationData = {
-        message: messageText,
-        from: 'Owner',
-        createdAt: new Date().toISOString(),
-        read: false
-      };
-      
-      const notificationsRef = ref(database, `notifications/${selectedUser}`);
-      await push(notificationsRef, notificationData);
-      
-      // Clear form
-      document.getElementById('userSelect').value = '';
-      document.getElementById('messageText').value = '';
-      
-      showNotification(`✅ ${selectedUser} ga habar yuborildi!`, 'success');
-      console.log('✅ Habar yuborildi:', selectedUser);
-      
-    } catch (error) {
-      console.error('❌ Habar yuborishda xatolik:', error);
-      showNotification('❌ Habar yuborishda xatolik!', 'error');
-    }
-  };
-
-  // Auto-load users on page load
-  setTimeout(() => {
-    if (isAuthenticated) {
-      loadUsers();
-    }
-  }, 2000);
-
-  // Update statistics
-  function updateStats() {
-    const totalOrders = allOrders.length;
-    const pendingOrders = allOrders.filter(order => order.status === 'pending').length;
-    const approvedOrders = allOrders.filter(order => order.status === 'approved').length;
-    const completedOrders = allOrders.filter(order => order.status === 'completed').length;
-    const paymentPendingOrders = allOrders.filter(order => order.status === 'payment_pending').length;
-
-    document.getElementById('totalOrders').textContent = totalOrders;
-    document.getElementById('pendingOrders').textContent = pendingOrders;
-    document.getElementById('approvedOrders').textContent = approvedOrders;
-    document.getElementById('completedOrders').textContent = completedOrders;
-    document.getElementById('paymentPendingOrders').textContent = paymentPendingOrders;
-  }
-
-  // Apply filters
-  function applyFilters() {
-    const statusFilter = document.getElementById('statusFilter').value;
-    const typeFilter = document.getElementById('typeFilter').value;
-
-    filteredOrders = allOrders.filter(order => {
-      const statusMatch = !statusFilter || order.status === statusFilter;
-      const typeMatch = !typeFilter || order.type === typeFilter;
-      return statusMatch && typeMatch;
-    });
-
-    renderOrders();
-  }
-
-  // Render orders table
-  function renderOrders() {
-    const tbody = document.getElementById('ordersTableBody');
-    tbody.innerHTML = '';
-
-    filteredOrders.forEach(order => {
-      const row = document.createElement('tr');
-      
-      // Format date
-      let formattedDate = 'N/A';
-      if (order.createdAt) {
-        try {
-          const date = new Date(order.createdAt);
-          formattedDate = date.toLocaleDateString('uz-UZ');
-        } catch (e) {
-          formattedDate = 'N/A';
-        }
-      }
-
-      // Format price
-      let formattedPrice = 'N/A';
-      if (order.price) {
-        if (typeof order.price === 'number') {
-          formattedPrice = order.price.toLocaleString() + ' so\'m';
+        updateStats();
+        applyFilters();
+        
+        if (allOrders.length === 0) {
+          emptyState.style.display = 'block';
+          ordersContainer.style.display = 'none';
         } else {
-          formattedPrice = order.price;
+          emptyState.style.display = 'none';
+          ordersContainer.style.display = 'block';
         }
-      }
-
-      row.innerHTML = `
-        <td class="order-user">${order.user || 'N/A'}</td>
-        <td>${order.email || 'N/A'}</td>
-        <td>${order.phone || 'N/A'}</td>
-        <td>
-          <span class="order-type-badge ${order.type === 'gaming' ? 'type-gaming' : 'type-web'}">
-            ${order.type === 'gaming' ? '🎮 Gaming' : '🌐 Web'}
-          </span>
-        </td>
-        <td class="order-price">${formattedPrice}</td>
-        <td class="order-date">${formattedDate}</td>
-        <td>
-          <select class="status-select status-${order.status || 'pending'}" onchange="updateOrderStatus('${order.id}', this.value)">
-            <option value="pending" ${(order.status || 'pending') === 'pending' ? 'selected' : ''}>⏳ Kutilayotgan</option>
-            <option value="payment_pending" ${order.status === 'payment_pending' ? 'selected' : ''}>🔍 Tekshirilmoqda</option>
-            <option value="approved" ${order.status === 'approved' ? 'selected' : ''}>✅ Tasdiqlangan</option>
-            <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>🎉 Tayyor</option>
-          </select>
-        </td>
-        <td class="order-actions">
-          <button class="btn-small btn-view" onclick="viewOrder('${order.id}')">👁️ Ko'rish</button>
-          <button class="btn-small btn-delete" onclick="deleteOrder('${order.id}')">🗑️ O'chirish</button>
-        </td>
-      `;
-      tbody.appendChild(row);
-    });
-  }
-
-  // Update order status in Firebase
-  window.updateOrderStatus = async function(orderId, newStatus) {
-    if (!isAuthenticated) return;
-    
-    try {
-      console.log('🔄 Status yangilanmoqda:', orderId, '->', newStatus);
-      
-      const orderRef = ref(database, `orders/${orderId}`);
-      await update(orderRef, {
-        status: newStatus,
-        updatedAt: new Date().toISOString()
+      }, (error) => {
+        console.error('❌ Firebase xatosi:', error);
+        loadingState.innerHTML = `
+          <div style="color: var(--error);">
+            <p>❌ Firebase bilan bog'lanishda xatolik!</p>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Xatolik: ${error.message}</p>
+            <button onclick="location.reload()" class="btn-small" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
+              🔄 Qayta yuklash
+            </button>
+          </div>
+        `;
       });
+    }
+
+    // Load users for notification
+    window.loadUsers = async function() {
+      if (!isAuthenticated) return;
       
-      console.log('✅ Status yangilandi');
-      showNotification(`✅ Status yangilandi: ${getStatusText(newStatus)}`, 'success');
-    } catch (error) {
-      console.error('❌ Status yangilanmadi:', error);
-      showNotification('❌ Status yangilanmadi! Xatolik: ' + error.message, 'error');
-    }
-  };
+      try {
+        const userSelect = document.getElementById('userSelect');
+        userSelect.innerHTML = '<option value="">-- Yuklanmoqda... --</option>';
+        
+        const usersRef = ref(database, 'users');
+        onValue(usersRef, (snapshot) => {
+          userSelect.innerHTML = '<option value="">-- Foydalanuvchi tanlang --</option>';
+          
+          if (snapshot.exists()) {
+            const users = snapshot.val();
+            Object.keys(users).forEach(uid => {
+              const user = users[uid];
+              const displayName = user.displayName || user.phoneNumber || user.email || uid;
+              userSelect.innerHTML += `<option value="${displayName}">${displayName}</option>`;
+            });
+            console.log('✅ Foydalanuvchilar yuklandi');
+          } else {
+            userSelect.innerHTML = '<option value="">-- Foydalanuvchilar yo\'q --</option>';
+          }
+        });
+      } catch (error) {
+        console.error('❌ Foydalanuvchilarni yuklashda xatolik:', error);
+        showNotification('❌ Foydalanuvchilarni yuklashda xatolik!', 'error');
+      }
+    };
 
-  // View order details
-  window.viewOrder = function(orderId) {
-    if (!isAuthenticated) return;
-    
-    const order = allOrders.find(o => o.id === orderId);
-    if (!order) return;
-
-    const modalContent = document.getElementById('modalContent');
-    modalContent.innerHTML = `
-      <div class="modal-section">
-        <h4>👤 Mijoz ma'lumotlari</h4>
-        <p><strong>Ism:</strong> ${order.user || 'N/A'}</p>
-        <p><strong>Email:</strong> ${order.email || 'N/A'}</p>
-        <p><strong>Telefon:</strong> ${order.phone || 'N/A'}</p>
-        <p><strong>Telegram:</strong> ${order.telegram || 'Berilmagan'}</p>
-        ${order.gender ? `<p><strong>Jinsi:</strong> ${order.gender}</p>` : ''}
-        ${order.age ? `<p><strong>Yosh:</strong> ${order.age}</p>` : ''}
-      </div>
-
-      <div class="modal-section">
-        <h4>🎯 Buyurtma ma'lumotlari</h4>
-        <p><strong>Tur:</strong> ${order.type === 'gaming' ? '🎮 Gaming Dizayn' : '🌐 Web Dizayn'}</p>
-        ${order.type === 'gaming' ? `
-          <p><strong>O'yin:</strong> ${order.game || 'N/A'}</p>
-          <p><strong>Dizayn turi:</strong> ${order.designType || 'N/A'}</p>
-        ` : `
-          <p><strong>Kompaniya:</strong> ${order.companyName || 'N/A'}</p>
-          <p><strong>Biznes turi:</strong> ${order.businessType || 'N/A'}</p>
-          <p><strong>Sayt turi:</strong> ${order.websiteType || 'N/A'}</p>
-          <p><strong>Domen:</strong> ${order.domainName || 'Berilmagan'}</p>
-        `}
-        <p><strong>Narx:</strong> ${order.price ? (typeof order.price === 'number' ? order.price.toLocaleString() + ' so\'m' : order.price) : 'N/A'}</p>
-        <p><strong>Status:</strong> ${getStatusText(order.status || 'pending')}</p>
-      </div>
-
-      <div class="modal-section">
-        <h4>📝 Qo'shimcha ma'lumotlar</h4>
-        <p><strong>Talablar:</strong></p>
-        <p style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin-top: 0.5rem;">
-          ${order.comment || order.requirements || 'Qo\'shimcha talablar berilmagan'}
-        </p>
-        ${order.colors ? `<p><strong>Ranglar:</strong> ${order.colors}</p>` : ''}
-        ${order.designStyle ? `<p><strong>Dizayn uslubi:</strong> ${order.designStyle}</p>` : ''}
-        ${order.features && order.features.length > 0 ? `<p><strong>Funksiyalar:</strong> ${order.features.join(', ')}</p>` : ''}
-      </div>
-
-          ${order.paymentInfo ? `
-  <div class="modal-section">
-    <h4>💳 To'lov ma'lumotlari</h4>
-    <p><strong>To'lov holati:</strong> ${order.paymentInfo.confirmed ? '✅ Tasdiqlangan' : '❌ Tasdiqlanmagan'}</p>
-    <p><strong>To'lov sanasi:</strong> ${order.paymentInfo.paymentDate ? new Date(order.paymentInfo.paymentDate).toLocaleString('uz-UZ') : 'N/A'}</p>
-    <p style="color: var(--gray); font-size: 0.9rem; margin-top: 1rem;">
-      Chek faqat Telegram botga yuborilgan.
-    </p>
-  </div>
-  ` : ''}
-
-      <div class="modal-section">
-        <h4>📅 Vaqt ma'lumotlari</h4>
-        <p><strong>Yaratilgan:</strong> ${order.createdAt ? new Date(order.createdAt).toLocaleString('uz-UZ') : 'N/A'}</p>
-        <p><strong>Yangilangan:</strong> ${order.updatedAt ? new Date(order.updatedAt).toLocaleString('uz-UZ') : 'N/A'}</p>
-        <p><strong>Firebase ID:</strong> ${order.id}</p>
-      </div>
-    `;
-
-    document.getElementById('orderModal').style.display = 'flex';
-  };
-
-  // Delete order from Firebase
-  window.deleteOrder = async function(orderId) {
-    if (!isAuthenticated) return;
-    
-    if (!confirm('❌ Haqiqatan ham bu buyurtmani o\'chirishni xohlaysizmi?')) {
-      return;
-    }
-
-    try {
-      console.log('🗑️ Buyurtma o\'chirilmoqda:', orderId);
+    // Send notification to user
+    window.sendNotification = async function() {
+      if (!isAuthenticated) return;
       
-      const orderRef = ref(database, `orders/${orderId}`);
-      await remove(orderRef);
+      const selectedUser = document.getElementById('userSelect').value;
+      const messageText = document.getElementById('messageText').value.trim();
       
-      console.log('✅ Buyurtma o\'chirildi');
-      showNotification('✅ Buyurtma o\'chirildi!', 'success');
-    } catch (error) {
-      console.error('❌ Buyurtma o\'chirilmadi:', error);
-      showNotification('❌ Buyurtma o\'chirilmadi! Xatolik: ' + error.message, 'error');
-    }
-  };
+      if (!selectedUser) {
+        showNotification('❌ Foydalanuvchini tanlang!', 'error');
+        return;
+      }
+      
+      if (!messageText) {
+        showNotification('❌ Habar matnini kiriting!', 'error');
+        return;
+      }
+      
+      try {
+        const notificationData = {
+          message: messageText,
+          from: 'Owner',
+          createdAt: new Date().toISOString(),
+          read: false
+        };
+        
+        const notificationsRef = ref(database, `notifications/${selectedUser}`);
+        await push(notificationsRef, notificationData);
+        
+        // Clear form
+        document.getElementById('userSelect').value = '';
+        document.getElementById('messageText').value = '';
+        
+        showNotification(`✅ ${selectedUser} ga habar yuborildi!`, 'success');
+        console.log('✅ Habar yuborildi:', selectedUser);
+        
+      } catch (error) {
+        console.error('❌ Habar yuborishda xatolik:', error);
+        showNotification('❌ Habar yuborishda xatolik!', 'error');
+      }
+    };
 
-  // Close modal
-  window.closeModal = function() {
-    document.getElementById('orderModal').style.display = 'none';
-  };
-
-  // Get status text
-  function getStatusText(status) {
-    switch (status) {
-      case 'pending': return '⏳ Kutilayotgan';
-      case 'payment_pending': return '🔍 Tekshirilmoqda';
-      case 'approved': return '✅ Tasdiqlangan';
-      case 'completed': return '🎉 Tayyor';
-      default: return '⏳ Kutilayotgan';
-    }
-  }
-
-  // Show notification
-  function showNotification(message, type) {
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-      position: fixed;
-      top: 2rem;
-      right: 2rem;
-      padding: 1rem 2rem;
-      border-radius: 1rem;
-      color: white;
-      font-weight: 600;
-      z-index: 3000;
-      animation: slideIn 0.3s ease;
-      ${type === 'success' ? 'background: #22c55e;' : 'background: #ef4444;'}
-    `;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-
+    // Auto-load users on page load
     setTimeout(() => {
-      notification.remove();
-    }, 3000);
+      if (isAuthenticated) {
+        loadUsers();
+      }
+    }, 2000);
+
+    // Update statistics
+    function updateStats() {
+      const totalOrders = allOrders.length;
+      const pendingOrders = allOrders.filter(order => order.status === 'pending').length;
+      const approvedOrders = allOrders.filter(order => order.status === 'approved').length;
+      const completedOrders = allOrders.filter(order => order.status === 'completed').length;
+      const paymentPendingOrders = allOrders.filter(order => order.status === 'payment_pending').length;
+
+      document.getElementById('totalOrders').textContent = totalOrders;
+      document.getElementById('pendingOrders').textContent = pendingOrders;
+      document.getElementById('approvedOrders').textContent = approvedOrders;
+      document.getElementById('completedOrders').textContent = completedOrders;
+      document.getElementById('paymentPendingOrders').textContent = paymentPendingOrders;
+    }
+
+    // Apply filters
+    function applyFilters() {
+      const statusFilter = document.getElementById('statusFilter').value;
+      const typeFilter = document.getElementById('typeFilter').value;
+
+      filteredOrders = allOrders.filter(order => {
+        const statusMatch = !statusFilter || order.status === statusFilter;
+        const typeMatch = !typeFilter || order.type === typeFilter;
+        return statusMatch && typeMatch;
+      });
+
+      renderOrders();
+    }
+
+    // Render orders table
+    function renderOrders() {
+      const tbody = document.getElementById('ordersTableBody');
+      tbody.innerHTML = '';
+
+      filteredOrders.forEach(order => {
+        const row = document.createElement('tr');
+        
+        // Format date
+        let formattedDate = 'N/A';
+        if (order.createdAt) {
+          try {
+            const date = new Date(order.createdAt);
+            formattedDate = date.toLocaleDateString('uz-UZ');
+          } catch (e) {
+            formattedDate = 'N/A';
+          }
+        }
+
+        // Format price
+        let formattedPrice = 'N/A';
+        if (order.price) {
+          if (typeof order.price === 'number') {
+            formattedPrice = order.price.toLocaleString() + ' so\'m';
+          } else {
+            formattedPrice = order.price;
+          }
+        }
+
+        row.innerHTML = `
+          <td class="order-user">${order.user || 'N/A'}</td>
+          <td>${order.email || 'N/A'}</td>
+          <td>${order.phone || 'N/A'}</td>
+          <td>
+            <span class="order-type-badge ${order.type === 'gaming' ? 'type-gaming' : 'type-web'}">
+              ${order.type === 'gaming' ? '🎮 Gaming' : '🌐 Web'}
+            </span>
+          </td>
+          <td class="order-price">${formattedPrice}</td>
+          <td class="order-date">${formattedDate}</td>
+          <td>
+            <select class="status-select status-${order.status || 'pending'}" onchange="updateOrderStatus('${order.id}', this.value)">
+              <option value="pending" ${(order.status || 'pending') === 'pending' ? 'selected' : ''}>⏳ Kutilayotgan</option>
+              <option value="payment_pending" ${order.status === 'payment_pending' ? 'selected' : ''}>🔍 Tekshirilmoqda</option>
+              <option value="approved" ${order.status === 'approved' ? 'selected' : ''}>✅ Tasdiqlangan</option>
+              <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>🎉 Tayyor</option>
+            </select>
+          </td>
+          <td class="order-actions">
+            <button class="btn-small btn-view" onclick="viewOrder('${order.id}')">👁️ Ko'rish</button>
+            <button class="btn-small btn-delete" onclick="deleteOrder('${order.id}')">🗑️ O'chirish</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Update order status in Firebase
+    window.updateOrderStatus = async function(orderId, newStatus) {
+      if (!isAuthenticated) return;
+      
+      try {
+        console.log('🔄 Status yangilanmoqda:', orderId, '->', newStatus);
+        
+        const orderRef = ref(database, `orders/${orderId}`);
+        await update(orderRef, {
+          status: newStatus,
+          updatedAt: new Date().toISOString()
+        });
+        
+        console.log('✅ Status yangilandi');
+        showNotification(`✅ Status yangilandi: ${getStatusText(newStatus)}`, 'success');
+      } catch (error) {
+        console.error('❌ Status yangilanmadi:', error);
+        showNotification('❌ Status yangilanmadi! Xatolik: ' + error.message, 'error');
+      }
+    };
+
+    // View order details
+    window.viewOrder = function(orderId) {
+      if (!isAuthenticated) return;
+      
+      const order = allOrders.find(o => o.id === orderId);
+      if (!order) return;
+
+      const modalContent = document.getElementById('modalContent');
+      modalContent.innerHTML = `
+        <div class="modal-section">
+          <h4>👤 Mijoz ma'lumotlari</h4>
+          <p><strong>Ism:</strong> ${order.user || 'N/A'}</p>
+          <p><strong>Email:</strong> ${order.email || 'N/A'}</p>
+          <p><strong>Telefon:</strong> ${order.phone || 'N/A'}</p>
+          <p><strong>Telegram:</strong> ${order.telegram || 'Berilmagan'}</p>
+          ${order.gender ? `<p><strong>Jinsi:</strong> ${order.gender}</p>` : ''}
+          ${order.age ? `<p><strong>Yosh:</strong> ${order.age}</p>` : ''}
+        </div>
+
+        <div class="modal-section">
+          <h4>🎯 Buyurtma ma'lumotlari</h4>
+          <p><strong>Tur:</strong> ${order.type === 'gaming' ? '🎮 Gaming Dizayn' : '🌐 Web Dizayn'}</p>
+          ${order.type === 'gaming' ? `
+            <p><strong>O'yin:</strong> ${order.game || 'N/A'}</p>
+            <p><strong>Dizayn turi:</strong> ${order.designType || 'N/A'}</p>
+          ` : `
+            <p><strong>Kompaniya:</strong> ${order.companyName || 'N/A'}</p>
+            <p><strong>Biznes turi:</strong> ${order.businessType || 'N/A'}</p>
+            <p><strong>Sayt turi:</strong> ${order.websiteType || 'N/A'}</p>
+            <p><strong>Domen:</strong> ${order.domainName || 'Berilmagan'}</p>
+          `}
+          <p><strong>Narx:</strong> ${order.price ? (typeof order.price === 'number' ? order.price.toLocaleString() + ' so\'m' : order.price) : 'N/A'}</p>
+          <p><strong>Status:</strong> ${getStatusText(order.status || 'pending')}</p>
+        </div>
+
+        <div class="modal-section">
+          <h4>📝 Qo'shimcha ma'lumotlar</h4>
+          <p><strong>Talablar:</strong></p>
+          <p style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin-top: 0.5rem;">
+            ${order.comment || order.requirements || 'Qo\'shimcha talablar berilmagan'}
+          </p>
+          ${order.colors ? `<p><strong>Ranglar:</strong> ${order.colors}</p>` : ''}
+          ${order.designStyle ? `<p><strong>Dizayn uslubi:</strong> ${order.designStyle}</p>` : ''}
+          ${order.features && order.features.length > 0 ? `<p><strong>Funksiyalar:</strong> ${order.features.join(', ')}</p>` : ''}
+        </div>
+
+        ${order.paymentInfo ? `
+<div class="modal-section">
+  <h4>💳 To'lov ma'lumotlari</h4>
+  <p><strong>To'lov holati:</strong> ${order.paymentInfo.confirmed ? '✅ Tasdiqlangan' : '❌ Tasdiqlanmagan'}</p>
+  <p><strong>To'lov sanasi:</strong> ${order.paymentInfo.paymentDate ? new Date(order.paymentInfo.paymentDate).toLocaleString('uz-UZ') : 'N/A'}</p>
+  <p><strong>Chek:</strong></p>
+  ${order.paymentInfo.receiptFileType === 'application/pdf' ? 
+    `<a href="${order.paymentInfo.receiptURL}" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--primary); color: white; text-decoration: none; border-radius: 0.5rem; margin-top: 0.5rem;">
+      📄 PDF chekni yuklab olish
+    </a>` :
+    `<img src="${order.paymentInfo.receiptURL}" alt="To'lov cheki" style="max-width: 100%; height: auto; border-radius: 0.5rem; margin-top: 0.5rem; cursor: pointer;" onclick="window.open('${order.paymentInfo.receiptURL}', '_blank')">`
   }
+</div>
+` : ''}
 
-  // Event listeners
-  document.getElementById('statusFilter').addEventListener('change', applyFilters);
-  document.getElementById('typeFilter').addEventListener('change', applyFilters);
+        <div class="modal-section">
+          <h4>📅 Vaqt ma'lumotlari</h4>
+          <p><strong>Yaratilgan:</strong> ${order.createdAt ? new Date(order.createdAt).toLocaleString('uz-UZ') : 'N/A'}</p>
+          <p><strong>Yangilangan:</strong> ${order.updatedAt ? new Date(order.updatedAt).toLocaleString('uz-UZ') : 'N/A'}</p>
+          <p><strong>Firebase ID:</strong> ${order.id}</p>
+        </div>
+      `;
 
-  // Close modal on outside click
-  document.getElementById('orderModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-      closeModal();
-    }
-  });
+      document.getElementById('orderModal').style.display = 'flex';
+    };
 
-  // Security: Clear auth on page unload
-  window.addEventListener('beforeunload', function() {
-    if (!confirm('Sahifani yopishni xohlaysizmi?')) {
-      sessionStorage.removeItem('ownerAuth');
-    }
-  });
-</script>
+    // Delete order from Firebase
+    window.deleteOrder = async function(orderId) {
+      if (!isAuthenticated) return;
+      
+      if (!confirm('❌ Haqiqatan ham bu buyurtmani o\'chirishni xohlaysizmi?')) {
+        return;
+      }
 
-<style>
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateX(100px);
+      try {
+        console.log('🗑️ Buyurtma o\'chirilmoqda:', orderId);
+        
+        const orderRef = ref(database, `orders/${orderId}`);
+        await remove(orderRef);
+        
+        console.log('✅ Buyurtma o\'chirildi');
+        showNotification('✅ Buyurtma o\'chirildi!', 'success');
+      } catch (error) {
+        console.error('❌ Buyurtma o\'chirilmadi:', error);
+        showNotification('❌ Buyurtma o\'chirilmadi! Xatolik: ' + error.message, 'error');
+      }
+    };
+
+    // Close modal
+    window.closeModal = function() {
+      document.getElementById('orderModal').style.display = 'none';
+    };
+
+    // Get status text
+    function getStatusText(status) {
+      switch (status) {
+        case 'pending': return '⏳ Kutilayotgan';
+        case 'payment_pending': return '🔍 Tekshirilmoqda';
+        case 'approved': return '✅ Tasdiqlangan';
+        case 'completed': return '🎉 Tayyor';
+        default: return '⏳ Kutilayotgan';
+      }
     }
-    to {
-      opacity: 1;
-      transform: translateX(0);
+
+    // Show notification
+    function showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        padding: 1rem 2rem;
+        border-radius: 1rem;
+        color: white;
+        font-weight: 600;
+        z-index: 3000;
+        animation: slideIn 0.3s ease;
+        ${type === 'success' ? 'background: #22c55e;' : 'background: #ef4444;'}
+      `;
+      notification.textContent = message;
+      document.body.appendChild(notification);
+
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
     }
-  }
-</style>
+
+    // Event listeners
+    document.getElementById('statusFilter').addEventListener('change', applyFilters);
+    document.getElementById('typeFilter').addEventListener('change', applyFilters);
+
+    // Close modal on outside click
+    document.getElementById('orderModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+
+    // Security: Clear auth on page unload
+    window.addEventListener('beforeunload', function() {
+      if (!confirm('Sahifani yopishni xohlaysizmi?')) {
+        sessionStorage.removeItem('ownerAuth');
+      }
+    });
+  </script>
+
+  <style>
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  </style>
 </body>
 </html>
