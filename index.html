@@ -1172,13 +1172,8 @@
   <h4>💳 To'lov ma'lumotlari</h4>
   <p><strong>To'lov holati:</strong> ${order.paymentInfo.confirmed ? '✅ Tasdiqlangan' : '❌ Tasdiqlanmagan'}</p>
   <p><strong>To'lov sanasi:</strong> ${order.paymentInfo.paymentDate ? new Date(order.paymentInfo.paymentDate).toLocaleString('uz-UZ') : 'N/A'}</p>
-  <p><strong>Chek:</strong></p>
-  ${order.paymentInfo.receiptFileType === 'application/pdf' ? 
-    `<a href="${order.paymentInfo.receiptURL}" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--primary); color: white; text-decoration: none; border-radius: 0.5rem; margin-top: 0.5rem;">
-      📄 PDF chekni yuklab olish
-    </a>` :
-    `<img src="${order.paymentInfo.receiptURL}" alt="To'lov cheki" style="max-width: 100%; height: auto; border-radius: 0.5rem; margin-top: 0.5rem; cursor: pointer;" onclick="window.open('${order.paymentInfo.receiptURL}', '_blank')">`
-  }
+  <p><strong>Chek fayli:</strong> ${order.paymentInfo.receiptFileName || 'N/A'}</p>
+  <p style="color: var(--success); font-weight: 600;">📄 Chek Telegram botga yuborilgan</p>
 </div>
 ` : ''}
 
