@@ -6,8 +6,6 @@
   <title>Owner Panel - Elbek Design Studio</title>
   <link rel="icon" href="/img/36cc6850-12bc-4bd8-8721-4833a90f2da8.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <!-- EmailJS SDK -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -297,108 +295,6 @@
     .stat-label {
       color: var(--gray);
       font-weight: 500;
-    }
-
-    /* Communication Section */
-    .communication-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin-bottom: 3rem;
-    }
-
-    .communication-card {
-      background: var(--white);
-      border-radius: 1.5rem;
-      padding: 2rem;
-      box-shadow: var(--shadow);
-    }
-
-    .communication-title {
-      color: var(--primary);
-      margin-bottom: 1.5rem;
-      font-size: 1.3rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 2rem;
-      align-items: start;
-    }
-
-    .form-group {
-      margin-bottom: 1rem;
-    }
-
-    .form-label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-      color: var(--dark);
-    }
-
-    .form-select,
-    .form-input,
-    .form-textarea {
-      width: 100%;
-      padding: 0.75rem;
-      border: 2px solid #e5e7eb;
-      border-radius: 0.75rem;
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-    }
-
-    .form-select:focus,
-    .form-input:focus,
-    .form-textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-    }
-
-    .form-textarea {
-      height: 100px;
-      resize: vertical;
-    }
-
-    .send-btn {
-      width: 100%;
-      padding: 0.75rem;
-      background: var(--gradient);
-      color: white;
-      border: none;
-      border-radius: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    .send-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
-    }
-
-    .load-btn {
-      width: 100%;
-      margin-top: 0.5rem;
-      padding: 0.5rem;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-    }
-
-    .load-btn:hover {
-      background: var(--primary-dark);
     }
 
     /* Filters */
@@ -691,14 +587,6 @@
         font-size: 2rem;
       }
 
-      .communication-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
       .filters {
         flex-direction: column;
         align-items: stretch;
@@ -821,71 +709,29 @@
         </div>
       </div>
 
-      <!-- Communication Grid -->
-      <div class="communication-grid">
-        <!-- Telegram Notification -->
-        <div class="communication-card">
-          <h3 class="communication-title">
-            <span>📢</span> Telegram habar yuborish
-          </h3>
-          
-          <div class="form-grid">
-            <div>
-              <div class="form-group">
-                <label class="form-label">👤 Foydalanuvchi:</label>
-                <select id="userSelect" class="form-select">
-                  <option value="">-- Foydalanuvchi tanlang --</option>
-                </select>
-                <button onclick="loadUsers()" class="load-btn">
-                  🔄 Foydalanuvchilarni yuklash
-                </button>
-              </div>
-            </div>
-            
-            <div>
-              <div class="form-group">
-                <label class="form-label">📝 Habar matni:</label>
-                <textarea id="messageText" class="form-textarea" placeholder="Habar matnini kiriting..."></textarea>
-                <button onclick="sendNotification()" class="send-btn">
-                  📤 Telegram habar yuborish
-                </button>
-              </div>
-            </div>
+      <!-- Send Notification Section -->
+      <div style="background: var(--white); border-radius: 1.5rem; padding: 2rem; box-shadow: var(--shadow); margin-bottom: 2rem;">
+        <h3 style="color: var(--primary); margin-bottom: 1.5rem; font-size: 1.3rem; display: flex; align-items: center; gap: 0.5rem;">
+          <span>📢</span> Foydalanuvchilarga habar yuborish
+        </h3>
+        
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: start;">
+          <div>
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">👤 Foydalanuvchi tanlang:</label>
+            <select id="userSelect" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; font-family: 'Poppins', sans-serif;">
+              <option value="">-- Foydalanuvchi tanlang --</option>
+            </select>
+            <button onclick="loadUsers()" style="width: 100%; margin-top: 0.5rem; padding: 0.5rem; background: var(--primary); color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
+              🔄 Foydalanuvchilarni yuklash
+            </button>
           </div>
-        </div>
-
-        <!-- Email Notification -->
-        <div class="communication-card">
-          <h3 class="communication-title">
-            <span>📧</span> Email habar yuborish
-          </h3>
           
-          <div class="form-grid">
-            <div>
-              <div class="form-group">
-                <label class="form-label">📧 Email manzil:</label>
-                <select id="emailSelect" class="form-select">
-                  <option value="">-- Email tanlang --</option>
-                </select>
-                <button onclick="loadEmails()" class="load-btn">
-                  🔄 Email manzillarni yuklash
-                </button>
-              </div>
-            </div>
-            
-            <div>
-              <div class="form-group">
-                <label class="form-label">📋 Mavzu:</label>
-                <input type="text" id="emailSubject" class="form-input" placeholder="Email mavzusini kiriting...">
-              </div>
-              <div class="form-group">
-                <label class="form-label">📝 Xabar matni:</label>
-                <textarea id="emailMessage" class="form-textarea" placeholder="Email matnini kiriting..."></textarea>
-                <button onclick="sendEmail()" class="send-btn">
-                  📧 Email yuborish
-                </button>
-              </div>
-            </div>
+          <div>
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">📝 Habar matni:</label>
+            <textarea id="messageText" placeholder="Habar matnini kiriting..." style="width: 100%; height: 100px; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; font-family: 'Poppins', sans-serif; resize: vertical;"></textarea>
+            <button onclick="sendNotification()" style="width: 100%; margin-top: 0.5rem; padding: 0.75rem; background: var(--gradient); color: white; border: none; border-radius: 0.75rem; font-weight: 600; cursor: pointer;">
+              📤 Habar yuborish
+            </button>
           </div>
         </div>
       </div>
@@ -979,9 +825,6 @@
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
-
-    // Initialize EmailJS
-    emailjs.init("LT9E6TafzxjSNkZ3m"); // Bu yerga EmailJS public key ni qo'ying
 
     // Owner password (in real app, this should be more secure)
     const OWNER_PASSWORD = "elbek2025admin";
@@ -1123,31 +966,6 @@
       }
     };
 
-    // Load emails for email notification
-    window.loadEmails = async function() {
-      if (!isAuthenticated) return;
-      
-      try {
-        const emailSelect = document.getElementById('emailSelect');
-        emailSelect.innerHTML = '<option value="">-- Yuklanmoqda... --</option>';
-        
-        // Get emails from orders
-        const emails = [...new Set(allOrders.map(order => order.email).filter(email => email))];
-        
-        emailSelect.innerHTML = '<option value="">-- Email tanlang --</option>';
-        emails.forEach(email => {
-          emailSelect.innerHTML += `<option value="${email}">${email}</option>`;
-        });
-        
-        console.log('✅ Email manzillar yuklandi:', emails.length);
-        showNotification(`✅ ${emails.length} ta email manzil yuklandi!`, 'success');
-        
-      } catch (error) {
-        console.error('❌ Email manzillarni yuklashda xatolik:', error);
-        showNotification('❌ Email manzillarni yuklashda xatolik!', 'error');
-      }
-    };
-
     // Send notification to user
     window.sendNotification = async function() {
       if (!isAuthenticated) return;
@@ -1180,74 +998,19 @@
         document.getElementById('userSelect').value = '';
         document.getElementById('messageText').value = '';
         
-        showNotification(`✅ ${selectedUser} ga Telegram habar yuborildi!`, 'success');
-        console.log('✅ Telegram habar yuborildi:', selectedUser);
+        showNotification(`✅ ${selectedUser} ga habar yuborildi!`, 'success');
+        console.log('✅ Habar yuborildi:', selectedUser);
         
       } catch (error) {
-        console.error('❌ Telegram habar yuborishda xatolik:', error);
-        showNotification('❌ Telegram habar yuborishda xatolik!', 'error');
+        console.error('❌ Habar yuborishda xatolik:', error);
+        showNotification('❌ Habar yuborishda xatolik!', 'error');
       }
     };
 
-    // Send email to user
-    window.sendEmail = async function() {
-      if (!isAuthenticated) return;
-      
-      const selectedEmail = document.getElementById('emailSelect').value;
-      const emailSubject = document.getElementById('emailSubject').value.trim();
-      const emailMessage = document.getElementById('emailMessage').value.trim();
-      
-      if (!selectedEmail) {
-        showNotification('❌ Email manzilni tanlang!', 'error');
-        return;
-      }
-      
-      if (!emailSubject) {
-        showNotification('❌ Email mavzusini kiriting!', 'error');
-        return;
-      }
-      
-      if (!emailMessage) {
-        showNotification('❌ Email matnini kiriting!', 'error');
-        return;
-      }
-      
-      try {
-        // EmailJS template parameters
-        const templateParams = {
-          to_email: selectedEmail,
-          subject: emailSubject,
-          message: emailMessage,
-          from_name: 'Elbek Design Studio',
-          reply_to: 'elbekdesignstudio@gmail.com'
-        };
-        
-        // Send email using EmailJS
-        await emailjs.send(
-          'service_ifenatp', // Bu yerga EmailJS service ID ni qo'ying
-          'template_1jfzn5a', // Bu yerga EmailJS template ID ni qo'ying
-          templateParams
-        );
-        
-        // Clear form
-        document.getElementById('emailSelect').value = '';
-        document.getElementById('emailSubject').value = '';
-        document.getElementById('emailMessage').value = '';
-        
-        showNotification(`✅ ${selectedEmail} ga email yuborildi!`, 'success');
-        console.log('✅ Email yuborildi:', selectedEmail);
-        
-      } catch (error) {
-        console.error('❌ Email yuborishda xatolik:', error);
-        showNotification('❌ Email yuborishda xatolik! EmailJS sozlamalarini tekshiring.', 'error');
-      }
-    };
-
-    // Auto-load users and emails on page load
+    // Auto-load users on page load
     setTimeout(() => {
       if (isAuthenticated) {
         loadUsers();
-        loadEmails();
       }
     }, 2000);
 
@@ -1373,6 +1136,8 @@
           <p><strong>Email:</strong> ${order.email || 'N/A'}</p>
           <p><strong>Telefon:</strong> ${order.phone || 'N/A'}</p>
           <p><strong>Telegram:</strong> ${order.telegram || 'Berilmagan'}</p>
+          ${order.gender ? `<p><strong>Jinsi:</strong> ${order.gender}</p>` : ''}
+          ${order.age ? `<p><strong>Yosh:</strong> ${order.age}</p>` : ''}
         </div>
 
         <div class="modal-section">
