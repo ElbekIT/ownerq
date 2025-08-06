@@ -1120,13 +1120,17 @@
         
         if (snapshot.exists()) {
           const users = snapshot.val();
+          console.log('Firebase dan olingan foydalanuvchilar:', users);
           
           for (const uid of Object.keys(users)) {
             const user = users[uid];
             user.uid = uid;
             
+            // Google orqali ro'yxatdan o'tgan foydalanuvchilar uchun to'g'ri nom olish
+            const userName = user.displayName || user.email || `User_${uid.substring(0, 8)}`;
+            
             // Check if user is blocked
-            const blockedRef = ref(database, `blocked_users/${user.displayName || user.email}`);
+            const blockedRef = ref(database, `blocked_users/${userName}`);
             try {
               const blockedSnapshot = await get(blockedRef);
               if (blockedSnapshot.exists()) {
@@ -1147,20 +1151,36 @@
                 user.isBlocked = false;
               }
             } catch (error) {
+              console.error('Block tekshirishda xatolik:', error);
               user.isBlocked = false;
             }
             
             allUsers.push(user);
           }
+          
+          console.log('Barcha foydalanuvchilar yuklandi:', allUsers);
+        } else {
+          console.log('❌ Firebase da foydalanuvchilar yo\'q');
         }
         
         updateUserStats();
         renderUsersTable();
         usersContainer.style.display = 'block';
+      }, (error) => {
+        console.error('❌ Firebase xatosi:', error);
+        usersLoadingState.innerHTML = `
+          <div style="color: var(--error);">
+            <p>❌ Firebase bilan bog'lanishda xatolik!</p>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Xatolik: ${error.message}</p>
+            <button onclick="location.reload()" class="btn-small" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
+              🔄 Qayta yuklash
+            </button>
+          </div>
+        `;
       });
     }
 
-    // Load users for dropdowns
+    // Load users for dropdowns - bu funksiyani to'liq o'zgartiraman
     window.loadUsers = async function() {
       try {
         const userSelect = document.getElementById('userSelect');
@@ -1180,25 +1200,44 @@
             
             Object.keys(users).forEach(uid => {
               const user = users[uid];
+              // Google orqali ro'yxatdan o'tgan foydalanuvchilar uchun displayName yoki email ishlatamiz
               const displayName = user.displayName || user.email || `User_${uid.substring(0, 8)}`;
+              const authMethod = user.authMethod || 'unknown';
+              
+              console.log('Foydalanuvchi topildi:', {
+                uid: uid,
+                displayName: displayName,
+                email: user.email,
+                authMethod: authMethod
+              });
               
               // Add to notification dropdown
               const option1 = document.createElement('option');
               option1.value = displayName;
-              option1.textContent = `${displayName} (${user.authMethod || 'unknown'})`;
+              option1.textContent = `${displayName} (${authMethod})`;
               userSelect.appendChild(option1);
               
               // Add to block dropdown
               const option2 = document.createElement('option');
               option2.value = displayName;
-              option2.textContent = `${displayName} (${user.authMethod || 'unknown'})`;
+              option2.textContent = `${displayName} (${authMethod})`;
               blockUserSelect.appendChild(option2);
               
               userCount++;
             });
             
             console.log(`✅ ${userCount} ta foydalanuvchi yuklandi`);
+            showNotification(`✅ ${userCount} ta foydalanuvchi yuklandi`, 'success');
+          } else {
+            console.log('❌ Hech qanday foydalanuvchi topilmadi');
+            showNotification('❌ Hech qanday foydalanuvchi topilmadi', 'error');
           }
+        }, (error) => {
+          console.error('❌ Foydalanuvchilarni yuklashda xatolik:', error);
+          showNotification('❌ Foydalanuvchilarni yuklashda xatolik: ' + error.message, 'error');
+          
+          userSelect.innerHTML = '<option value="">-- Xatolik yuz berdi --</option>';
+          blockUserSelect.innerHTML = '<option value="">-- Xatolik yuz berdi --</option>';
         });
         
       } catch (error) {
@@ -1223,6 +1262,11 @@
       }
       
       try {
+        console.log('Habar yuborilmoqda:', {
+          user: selectedUser,
+          message: messageText
+        });
+        
         const notificationData = {
           message: messageText,
           from: 'Owner',
@@ -1232,6 +1276,8 @@
         
         const notificationsRef = ref(database, `notifications/${selectedUser}`);
         await push(notificationsRef, notificationData);
+
+        console.log('✅ Habar muvaffaqiyatli yuborildi');
 
         document.getElementById('userSelect').value = '';
         document.getElementById('messageText').value = '';
