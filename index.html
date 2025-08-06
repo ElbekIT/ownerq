@@ -413,188 +413,7 @@
       transform: translateY(-2px);
     }
 
-    /* Filters */
-    .filters {
-      background: var(--white);
-      border-radius: 1.5rem;
-      padding: 1.5rem;
-      box-shadow: var(--shadow);
-      margin-bottom: 2rem;
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .filter-group {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .filter-select {
-      padding: 0.75rem 1rem;
-      border: 2px solid #e5e7eb;
-      border-radius: 0.75rem;
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.9rem;
-      background: var(--white);
-      color: var(--dark);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .filter-select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-    }
-
-    /* Loading */
-    .loading {
-      text-align: center;
-      padding: 3rem;
-      color: var(--gray);
-    }
-
-    .loading-spinner {
-      width: 50px;
-      height: 50px;
-      border: 4px solid #e5e7eb;
-      border-top: 4px solid var(--primary);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 1rem;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Orders Table */
-    .orders-container {
-      background: var(--white);
-      border-radius: 1.5rem;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .orders-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .orders-table th,
-    .orders-table td {
-      padding: 1rem;
-      text-align: left;
-      border-bottom: 1px solid #f1f5f9;
-    }
-
-    .orders-table th {
-      background: var(--light);
-      font-weight: 600;
-      color: var(--dark);
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .orders-table tr:hover {
-      background: rgba(99, 102, 241, 0.02);
-    }
-
-    .order-user {
-      font-weight: 600;
-      color: var(--primary);
-    }
-
-    .order-type-badge {
-      padding: 0.25rem 0.75rem;
-      border-radius: 1rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    .type-gaming {
-      background: rgba(99, 102, 241, 0.1);
-      color: var(--primary);
-    }
-
-    .type-web {
-      background: rgba(139, 92, 246, 0.1);
-      color: var(--secondary);
-    }
-
-    .status-select {
-      padding: 0.5rem 0.75rem;
-      border: 2px solid #e5e7eb;
-      border-radius: 0.5rem;
-      font-size: 0.85rem;
-      font-family: 'Poppins', sans-serif;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .status-select:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-
-    .status-pending { color: var(--warning); }
-    .status-payment_pending { color: #f59e0b; }
-    .status-approved { color: var(--success); }
-    .status-completed { color: var(--primary); }
-
-    .order-price {
-      font-weight: 600;
-      color: var(--success);
-    }
-
-    .order-date {
-      color: var(--gray);
-      font-size: 0.85rem;
-    }
-
-    .order-actions {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .btn-small {
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 0.5rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    .btn-view {
-      background: rgba(99, 102, 241, 0.1);
-      color: var(--primary);
-    }
-
-    .btn-view:hover {
-      background: var(--primary);
-      color: var(--white);
-    }
-
-    .btn-delete {
-      background: rgba(239, 68, 68, 0.1);
-      color: var(--error);
-    }
-
-    .btn-delete:hover {
-      background: var(--error);
-      color: var(--white);
-    }
-
-    /* User Management Table */
+    /* Users Management Table */
     .users-table {
       width: 100%;
       border-collapse: collapse;
@@ -642,6 +461,59 @@
     .user-actions {
       display: flex;
       gap: 0.5rem;
+    }
+
+    .btn-small {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .btn-view {
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+    }
+
+    .btn-view:hover {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .btn-delete {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--error);
+    }
+
+    .btn-delete:hover {
+      background: var(--error);
+      color: var(--white);
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--gray);
+    }
+
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #e5e7eb;
+      border-top: 4px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     /* Modal */
@@ -707,37 +579,21 @@
       color: var(--primary);
     }
 
-    .modal-content {
-      line-height: 1.8;
+    /* Block Modal */
+    .block-modal {
+      background: var(--white);
+      border-radius: 2rem;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+      animation: modalSlide 0.5s ease;
+      box-shadow: var(--shadow-hover);
     }
 
-    .modal-section {
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid #f1f5f9;
-    }
-
-    .modal-section:last-child {
-      border-bottom: none;
-    }
-
-    .modal-section h4 {
-      color: var(--primary);
-      margin-bottom: 0.5rem;
-      font-size: 1.1rem;
-    }
-
-    /* Empty State */
-    .empty-state {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: var(--gray);
-    }
-
-    .empty-icon {
-      font-size: 4rem;
-      margin-bottom: 1rem;
-      opacity: 0.5;
+    .block-form {
+      display: grid;
+      gap: 1rem;
     }
 
     /* Responsive */
@@ -756,20 +612,6 @@
 
       .control-grid {
         grid-template-columns: 1fr;
-      }
-
-      .filters {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .orders-table {
-        font-size: 0.85rem;
-      }
-
-      .orders-table th,
-      .orders-table td {
-        padding: 0.75rem 0.5rem;
       }
 
       .users-table {
@@ -849,7 +691,7 @@
     <!-- Main Content -->
     <main class="main">
       <h1 class="page-title">👑 Owner Dashboard</h1>
-      <p class="page-subtitle">Barcha buyurtmalarni boshqaring va foydalanuvchilarni nazorat qiling</p>
+      <p class="page-subtitle">Foydalanuvchilarni boshqaring va bloklash tizimini nazorat qiling</p>
 
       <!-- Stats Grid -->
       <div class="stats-grid">
@@ -872,16 +714,6 @@
           <div class="stat-icon">📊</div>
           <div class="stat-number" id="totalOrders">0</div>
           <div class="stat-label">Jami buyurtmalar</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">⏳</div>
-          <div class="stat-number" id="pendingOrders">0</div>
-          <div class="stat-label">Kutilayotgan</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">🔍</div>
-          <div class="stat-number" id="paymentPendingOrders">0</div>
-          <div class="stat-label">Tekshirilmoqda</div>
         </div>
       </div>
 
@@ -987,78 +819,39 @@
           </table>
         </div>
       </div>
-
-      <!-- Orders Management -->
-      <div class="control-section">
-        <h3 class="section-title">
-          <span>📋</span> Buyurtmalar boshqaruvi
-        </h3>
-
-        <!-- Filters -->
-        <div class="filters">
-          <div class="filter-group">
-            <label>📋 Status:</label>
-            <select id="statusFilter" class="filter-select">
-              <option value="">Barchasi</option>
-              <option value="pending">Kutilayotgan</option>
-              <option value="payment_pending">Tekshirilmoqda</option>
-              <option value="approved">Tasdiqlangan</option>
-              <option value="completed">Tayyor</option>
-            </select>
-          </div>
-          <div class="filter-group">
-            <label>🎯 Tur:</label>
-            <select id="typeFilter" class="filter-select">
-              <option value="">Barchasi</option>
-              <option value="gaming">Gaming Dizayn</option>
-              <option value="web">Web Dizayn</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Loading State -->
-        <div id="loadingState" class="loading">
-          <div class="loading-spinner"></div>
-          <p>Buyurtmalar yuklanmoqda...</p>
-        </div>
-
-        <!-- Orders Container -->
-        <div id="ordersContainer" class="orders-container" style="display: none;">
-          <table class="orders-table">
-            <thead>
-              <tr>
-                <th>👤 Foydalanuvchi</th>
-                <th>📧 Email</th>
-                <th>📱 Telefon</th>
-                <th>🎯 Tur</th>
-                <th>💰 Narx</th>
-                <th>📅 Sana</th>
-                <th>📊 Status</th>
-                <th>⚙️ Amallar</th>
-              </tr>
-            </thead>
-            <tbody id="ordersTableBody">
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Empty State -->
-        <div id="emptyState" class="empty-state" style="display: none;">
-          <div class="empty-icon">📦</div>
-          <h3>Hali buyurtmalar yo'q</h3>
-          <p>Buyurtmalar kelganda bu yerda ko'rinadi</p>
-        </div>
-      </div>
     </main>
   </div>
 
-  <!-- Order Details Modal -->
-  <div class="modal-overlay" id="orderModal">
-    <div class="modal">
-      <button class="modal-close" onclick="closeModal()">×</button>
-      <h3 class="modal-title">📋 Buyurtma tafsilotlari</h3>
-      <div class="modal-content" id="modalContent">
-        <!-- Content will be populated by JavaScript -->
+  <!-- Block Modal -->
+  <div class="modal-overlay" id="blockModal">
+    <div class="block-modal">
+      <button class="modal-close" onclick="closeBlockModal()">×</button>
+      <h3 class="modal-title">🚫 Foydalanuvchini bloklash</h3>
+      <div class="block-form">
+        <div class="form-group">
+          <label class="form-label">👤 Foydalanuvchi:</label>
+          <input type="text" id="modalUsername" class="form-input" readonly>
+        </div>
+        <div class="form-group">
+          <label class="form-label">⏰ Block muddati:</label>
+          <select id="modalBlockDuration" class="form-select">
+            <option value="30">30 daqiqa</option>
+            <option value="60">1 soat</option>
+            <option value="180">3 soat</option>
+            <option value="360">6 soat</option>
+            <option value="720">12 soat</option>
+            <option value="1440">1 kun</option>
+            <option value="4320">3 kun</option>
+            <option value="10080">1 hafta</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">📝 Block sababi:</label>
+          <textarea id="modalBlockReason" class="form-textarea" placeholder="Block sababini yozing..."></textarea>
+        </div>
+        <button onclick="confirmBlock()" class="btn btn-danger">
+          🚫 Bloklash
+        </button>
       </div>
     </div>
   </div>
@@ -1083,8 +876,7 @@
     const database = getDatabase(app);
 
     let allUsers = [];
-    let allOrders = [];
-    let filteredOrders = [];
+    let currentBlockUser = null;
 
     // Login function
     window.login = function(event) {
@@ -1100,7 +892,7 @@
         setTimeout(() => {
           loadUsers();
           loadUsersForManagement();
-          loadOrders();
+          loadOrdersCount();
         }, 500);
       } else {
         document.getElementById('loginError').style.display = 'block';
@@ -1180,7 +972,7 @@
       });
     }
 
-    // Load users for dropdowns - bu funksiyani to'liq o'zgartiraman
+    // Load users for dropdowns
     window.loadUsers = async function() {
       try {
         const userSelect = document.getElementById('userSelect');
@@ -1340,6 +1132,61 @@
       }
     };
 
+    // Show block modal
+    window.showBlockModal = function(username) {
+      currentBlockUser = username;
+      document.getElementById('modalUsername').value = username;
+      document.getElementById('modalBlockReason').value = '';
+      document.getElementById('blockModal').style.display = 'flex';
+    };
+
+    // Close block modal
+    window.closeBlockModal = function() {
+      document.getElementById('blockModal').style.display = 'none';
+      currentBlockUser = null;
+    };
+
+    // Confirm block from modal
+    window.confirmBlock = async function() {
+      const blockDuration = parseInt(document.getElementById('modalBlockDuration').value);
+      const blockReason = document.getElementById('modalBlockReason').value.trim();
+      
+      if (!blockReason) {
+        showNotification('❌ Block sababini kiriting!', 'error');
+        return;
+      }
+      
+      if (!confirm(`${currentBlockUser} ni ${blockDuration} daqiqaga bloklashni xohlaysizmi?`)) {
+        return;
+      }
+      
+      try {
+        const now = new Date();
+        const blockEndTime = new Date(now.getTime() + (blockDuration * 60 * 1000));
+        
+        const blockData = {
+          reason: blockReason,
+          blockedAt: now.toISOString(),
+          blockEndTime: blockEndTime.toISOString(),
+          duration: blockDuration,
+          blockedBy: 'Owner'
+        };
+        
+        const blockedRef = ref(database, `blocked_users/${currentBlockUser}`);
+        await set(blockedRef, blockData);
+        
+        closeBlockModal();
+        showNotification(`✅ ${currentBlockUser} ${blockDuration} daqiqaga bloklandi!`, 'success');
+        
+        // Reload users to update status
+        loadUsersForManagement();
+        
+      } catch (error) {
+        console.error('❌ Bloklashda xatolik:', error);
+        showNotification('❌ Bloklashda xatolik: ' + error.message, 'error');
+      }
+    };
+
     // Unblock user
     window.unblockUser = async function(username) {
       if (!confirm(`${username} ni blokdan chiqarishni xohlaysizmi?`)) {
@@ -1410,223 +1257,20 @@
       });
     }
 
-    // Show block modal
-    window.showBlockModal = function(username) {
-      document.getElementById('blockUserSelect').value = username;
-    };
-
-    // Load all orders from Firebase Realtime Database
-    function loadOrders() {
-      const loadingState = document.getElementById('loadingState');
-      const ordersContainer = document.getElementById('ordersContainer');
-      const emptyState = document.getElementById('emptyState');
-
+    // Load orders count
+    function loadOrdersCount() {
       const ordersRef = ref(database, 'orders');
       onValue(ordersRef, (snapshot) => {
-        loadingState.style.display = 'none';
-        allOrders = [];
+        let totalOrders = 0;
         if (snapshot.exists()) {
-          const data = snapshot.val();
-          Object.keys(data).forEach(key => {
-            const order = data[key];
-            order.id = key;
-            allOrders.push(order);
-          });
-          allOrders.sort((a, b) => {
-            const dateA = a.createdAt ? new Date(a.createdAt) : new Date(0);
-            const dateB = b.createdAt ? new Date(b.createdAt) : new Date(0);
-            return dateB - dateA;
-          });
+          const orders = snapshot.val();
+          totalOrders = Object.keys(orders).length;
         }
-        updateOrderStats();
-        applyFilters();
-        if (allOrders.length === 0) {
-          emptyState.style.display = 'block';
-          ordersContainer.style.display = 'none';
-        } else {
-          emptyState.style.display = 'none';
-          ordersContainer.style.display = 'block';
-        }
-      }, (error) => {
-        loadingState.innerHTML = `
-          <div style="color: var(--error);">
-            <p>❌ Firebase bilan bog'lanishda xatolik!</p>
-            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Xatolik: ${error.message}</p>
-            <button onclick="location.reload()" class="btn-small" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
-              🔄 Qayta yuklash
-            </button>
-          </div>
-        `;
+        document.getElementById('totalOrders').textContent = totalOrders;
       });
     }
 
-    function updateOrderStats() {
-      const totalOrders = allOrders.length;
-      const pendingOrders = allOrders.filter(order => order.status === 'pending').length;
-      const paymentPendingOrders = allOrders.filter(order => order.status === 'payment_pending').length;
-
-      document.getElementById('totalOrders').textContent = totalOrders;
-      document.getElementById('pendingOrders').textContent = pendingOrders;
-      document.getElementById('paymentPendingOrders').textContent = paymentPendingOrders;
-    }
-
-    function applyFilters() {
-      const statusFilter = document.getElementById('statusFilter').value;
-      const typeFilter = document.getElementById('typeFilter').value;
-      filteredOrders = allOrders.filter(order => {
-        const statusMatch = !statusFilter || order.status === statusFilter;
-        const typeMatch = !typeFilter || order.type === typeFilter;
-        return statusMatch && typeMatch;
-      });
-      renderOrders();
-    }
-
-    function renderOrders() {
-      const tbody = document.getElementById('ordersTableBody');
-      tbody.innerHTML = '';
-      filteredOrders.forEach(order => {
-        const row = document.createElement('tr');
-        let formattedDate = 'N/A';
-        if (order.createdAt) {
-          try {
-            const date = new Date(order.createdAt);
-            formattedDate = date.toLocaleDateString('uz-UZ');
-          } catch (e) {
-            formattedDate = 'N/A';
-          }
-        }
-        let formattedPrice = 'N/A';
-        if (order.price) {
-          if (typeof order.price === 'number') {
-            formattedPrice = order.price.toLocaleString() + ' so\'m';
-          } else {
-            formattedPrice = order.price;
-          }
-        }
-        row.innerHTML = `
-          <td class="order-user">${order.user || 'N/A'}</td>
-          <td>${order.email || 'N/A'}</td>
-          <td>${order.phone || 'N/A'}</td>
-          <td>
-            <span class="order-type-badge ${order.type === 'gaming' ? 'type-gaming' : 'type-web'}">
-              ${order.type === 'gaming' ? '🎮 Gaming' : '🌐 Web'}
-            </span>
-          </td>
-          <td class="order-price">${formattedPrice}</td>
-          <td class="order-date">${formattedDate}</td>
-          <td>
-            <select class="status-select status-${order.status || 'pending'}" onchange="updateOrderStatus('${order.id}', this.value)">
-              <option value="pending" ${(order.status || 'pending') === 'pending' ? 'selected' : ''}>⏳ Kutilayotgan</option>
-              <option value="payment_pending" ${order.status === 'payment_pending' ? 'selected' : ''}>🔍 Tekshirilmoqda</option>
-              <option value="approved" ${order.status === 'approved' ? 'selected' : ''}>✅ Tasdiqlangan</option>
-              <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>🎉 Tayyor</option>
-            </select>
-          </td>
-          <td class="order-actions">
-            <button class="btn-small btn-view" onclick="viewOrder('${order.id}')">👁️ Ko'rish</button>
-            <button class="btn-small btn-delete" onclick="deleteOrder('${order.id}')">🗑️ O'chirish</button>
-          </td>
-        `;
-        tbody.appendChild(row);
-      });
-    }
-
-    window.updateOrderStatus = async function(orderId, newStatus) {
-      try {
-        const orderRef = ref(database, `orders/${orderId}`);
-        await update(orderRef, {
-          status: newStatus,
-          updatedAt: new Date().toISOString()
-        });
-        showNotification(`✅ Status yangilandi: ${getStatusText(newStatus)}`, 'success');
-      } catch (error) {
-        showNotification('❌ Status yangilanmadi! Xatolik: ' + error.message, 'error');
-      }
-    };
-
-    window.viewOrder = function(orderId) {
-      const order = allOrders.find(o => o.id === orderId);
-      if (!order) return;
-      const modalContent = document.getElementById('modalContent');
-      modalContent.innerHTML = `
-        <div class="modal-section">
-          <h4>👤 Mijoz ma'lumotlari</h4>
-          <p><strong>Ism:</strong> ${order.user || 'N/A'}</p>
-          <p><strong>Email:</strong> ${order.email || 'N/A'}</p>
-          <p><strong>Telefon:</strong> ${order.phone || 'N/A'}</p>
-          <p><strong>Telegram:</strong> ${order.telegram || 'Berilmagan'}</p>
-        </div>
-        <div class="modal-section">
-          <h4>🎯 Buyurtma ma'lumotlari</h4>
-          <p><strong>Tur:</strong> ${order.type === 'gaming' ? '🎮 Gaming Dizayn' : '🌐 Web Dizayn'}</p>
-          ${order.type === 'gaming' ? `
-            <p><strong>O'yin:</strong> ${order.game || 'N/A'}</p>
-            <p><strong>Dizayn turi:</strong> ${order.designType || 'N/A'}</p>
-          ` : `
-            <p><strong>Kompaniya:</strong> ${order.companyName || 'N/A'}</p>
-            <p><strong>Biznes turi:</strong> ${order.businessType || 'N/A'}</p>
-            <p><strong>Sayt turi:</strong> ${order.websiteType || 'N/A'}</p>
-            <p><strong>Domen:</strong> ${order.domainName || 'Berilmagan'}</p>
-          `}
-          <p><strong>Narx:</strong> ${order.price ? (typeof order.price === 'number' ? order.price.toLocaleString() + ' so\'m' : order.price) : 'N/A'}</p>
-          <p><strong>Status:</strong> ${getStatusText(order.status || 'pending')}</p>
-        </div>
-        <div class="modal-section">
-          <h4>📝 Qo'shimcha ma'lumotlar</h4>
-          <p><strong>Talablar:</strong></p>
-          <p style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin-top: 0.5rem;">
-            ${order.comment || order.requirements || 'Qo\'shimcha talablar berilmagan'}
-          </p>
-          ${order.colors ? `<p><strong>Ranglar:</strong> ${order.colors}</p>` : ''}
-          ${order.designStyle ? `<p><strong>Dizayn uslubi:</strong> ${order.designStyle}</p>` : ''}
-          ${order.features && order.features.length > 0 ? `<p><strong>Funksiyalar:</strong> ${order.features.join(', ')}</p>` : ''}
-        </div>
-        ${order.paymentInfo ? `
-          <div class="modal-section">
-            <h4>💳 To'lov ma'lumotlari</h4>
-            <p><strong>To'lov holati:</strong> ${order.paymentInfo.confirmed ? '✅ Tasdiqlangan' : '❌ Tasdiqlanmagan'}</p>
-            <p><strong>To'lov sanasi:</strong> ${order.paymentInfo.paymentDate ? new Date(order.paymentInfo.paymentDate).toLocaleString('uz-UZ') : 'N/A'}</p>
-            <p><strong>Chek fayli:</strong> ${order.paymentInfo.receiptFileName || 'N/A'}</p>
-            <p style="color: var(--success); font-weight: 600;">📄 Chek Telegram botga yuborilgan</p>
-          </div>
-        ` : ''}
-        <div class="modal-section">
-          <h4>📅 Vaqt ma'lumotlari</h4>
-          <p><strong>Yaratilgan:</strong> ${order.createdAt ? new Date(order.createdAt).toLocaleString('uz-UZ') : 'N/A'}</p>
-          <p><strong>Yangilangan:</strong> ${order.updatedAt ? new Date(order.updatedAt).toLocaleString('uz-UZ') : 'N/A'}</p>
-          <p><strong>Firebase ID:</strong> ${order.id}</p>
-        </div>
-      `;
-      document.getElementById('orderModal').style.display = 'flex';
-    };
-
-    window.deleteOrder = async function(orderId) {
-      if (!confirm('❌ Haqiqatan ham bu buyurtmani o\'chirishni xohlaysizmi?')) {
-        return;
-      }
-      try {
-        const orderRef = ref(database, `orders/${orderId}`);
-        await remove(orderRef);
-        showNotification('✅ Buyurtma o\'chirildi!', 'success');
-      } catch (error) {
-        showNotification('❌ Buyurtma o\'chirilmadi! Xatolik: ' + error.message, 'error');
-      }
-    };
-
-    window.closeModal = function() {
-      document.getElementById('orderModal').style.display = 'none';
-    };
-
-    function getStatusText(status) {
-      switch (status) {
-        case 'pending': return '⏳ Kutilayotgan';
-        case 'payment_pending': return '🔍 Tekshirilmoqda';
-        case 'approved': return '✅ Tasdiqlangan';
-        case 'completed': return '🎉 Tayyor';
-        default: return '⏳ Kutilayotgan';
-      }
-    }
-
+    // Show notification
     function showNotification(message, type) {
       const notification = document.createElement('div');
       notification.style.cssText = `
@@ -1648,12 +1292,10 @@
       }, 3000);
     }
 
-    document.getElementById('statusFilter').addEventListener('change', applyFilters);
-    document.getElementById('typeFilter').addEventListener('change', applyFilters);
-
-    document.getElementById('orderModal').addEventListener('click', function(e) {
+    // Close modal on outside click
+    document.getElementById('blockModal').addEventListener('click', function(e) {
       if (e.target === this) {
-        closeModal();
+        closeBlockModal();
       }
     });
 
