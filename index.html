@@ -976,7 +976,7 @@
             <thead>
               <tr>
                 <th>👤 Ism</th>
-                <th>📧 Email</th>
+                <th>📧 Ma'lumotlar</th>
                 <th>📅 Ro'yxatdan o'tgan</th>
                 <th>📊 Status</th>
                 <th>⚙️ Amallar</th>
@@ -1126,11 +1126,18 @@
             const user = users[uid];
             user.uid = uid;
             
-            // Google orqali ro'yxatdan o'tgan foydalanuvchilar uchun to'g'ri nom olish
-            const userName = user.displayName || user.email || `User_${uid.substring(0, 8)}`;
+            // Get display name based on auth method
+            let displayName = '';
+            if (user.authMethod === 'google') {
+              displayName = user.displayName || user.email || `User_${uid.substring(0, 8)}`;
+            } else if (user.authMethod === 'telegram') {
+              displayName = user.nickname || user.displayName || `telegram_${user.telegramId}`;
+            } else {
+              displayName = user.displayName || user.email || `User_${uid.substring(0, 8)}`;
+            }
             
             // Check if user is blocked
-            const blockedRef = ref(database, `blocked_users/${userName}`);
+            const blockedRef = ref(database, `blocked_users/${displayName}`);
             try {
               const blockedSnapshot = await get(blockedRef);
               if (blockedSnapshot.exists()) {
@@ -1180,79 +1187,80 @@
       });
     }
 
-    // Load users for dropdowns - bu funksiyani to'liq o'zgartiraman
+    // Load users for dropdowns
     window.loadUsers = async function() {
-  try {
-    const userSelect = document.getElementById('userSelect');
-    const blockUserSelect = document.getElementById('blockUserSelect');
-    
-    userSelect.innerHTML = '<option value="">-- Yuklanmoqda... --</option>';
-    blockUserSelect.innerHTML = '<option value="">-- Yuklanmoqda... --</option>';
-    
-    const usersRef = ref(database, 'users');
-    onValue(usersRef, (snapshot) => {
-      userSelect.innerHTML = '<option value="">-- Foydalanuvchi tanlang --</option>';
-      blockUserSelect.innerHTML = '<option value="">-- Foydalanuvchi tanlang --</option>';
-      
-      if (snapshot.exists()) {
-        const users = snapshot.val();
-        let userCount = 0;
+      try {
+        const userSelect = document.getElementById('userSelect');
+        const blockUserSelect = document.getElementById('blockUserSelect');
         
-        Object.keys(users).forEach(uid => {
-          const user = users[uid];
-          let displayName = '';
-          let authMethod = user.authMethod || 'unknown';
+        userSelect.innerHTML = '<option value="">-- Yuklanmoqda... --</option>';
+        blockUserSelect.innerHTML = '<option value="">-- Yuklanmoqda... --</option>';
+        
+        const usersRef = ref(database, 'users');
+        onValue(usersRef, (snapshot) => {
+          userSelect.innerHTML = '<option value="">-- Foydalanuvchi tanlang --</option>';
+          blockUserSelect.innerHTML = '<option value="">-- Foydalanuvchi tanlang --</option>';
           
-          // Handle different auth methods
-          if (authMethod === 'google') {
-            displayName = user.displayName || user.email || `User_${uid.substring(0, 8)}`;
-          } else if (authMethod === 'telegram') {
-            displayName = user.displayName || `telegram_${user.telegramId}`;
+          if (snapshot.exists()) {
+            const users = snapshot.val();
+            let userCount = 0;
+            
+            Object.keys(users).forEach(uid => {
+              const user = users[uid];
+              let displayName = '';
+              let authMethod = user.authMethod || 'unknown';
+              
+              // Handle different auth methods
+              if (authMethod === 'google') {
+                displayName = user.displayName || user.email || `User_${uid.substring(0, 8)}`;
+              } else if (authMethod === 'telegram') {
+                displayName = user.nickname || user.displayName || `telegram_${user.telegramId}`;
+              } else {
+                displayName = user.displayName || user.email || `User_${uid.substring(0, 8)}`;
+              }
+              
+              console.log('Foydalanuvchi topildi:', {
+                uid: uid,
+                displayName: displayName,
+                authMethod: authMethod,
+                nickname: user.nickname || 'N/A',
+                telegramId: user.telegramId || 'N/A'
+              });
+              
+              // Add to notification dropdown
+              const option1 = document.createElement('option');
+              option1.value = displayName;
+              option1.textContent = `${displayName} (${authMethod === 'telegram' ? '📱 Telegram' : '🔍 Google'})`;
+              userSelect.appendChild(option1);
+              
+              // Add to block dropdown
+              const option2 = document.createElement('option');
+              option2.value = displayName;
+              option2.textContent = `${displayName} (${authMethod === 'telegram' ? '📱 Telegram' : '🔍 Google'})`;
+              blockUserSelect.appendChild(option2);
+              
+              userCount++;
+            });
+            
+            console.log(`✅ ${userCount} ta foydalanuvchi yuklandi`);
+            showNotification(`✅ ${userCount} ta foydalanuvchi yuklandi`, 'success');
           } else {
-            displayName = user.displayName || user.email || `User_${uid.substring(0, 8)}`;
+            console.log('❌ Hech qanday foydalanuvchi topilmadi');
+            showNotification('❌ Hech qanday foydalanuvchi topilmadi', 'error');
           }
+        }, (error) => {
+          console.error('❌ Foydalanuvchilarni yuklashda xatolik:', error);
+          showNotification('❌ Foydalanuvchilarni yuklashda xatolik: ' + error.message, 'error');
           
-          console.log('Foydalanuvchi topildi:', {
-            uid: uid,
-            displayName: displayName,
-            authMethod: authMethod,
-            telegramId: user.telegramId || 'N/A'
-          });
-          
-          // Add to notification dropdown
-          const option1 = document.createElement('option');
-          option1.value = displayName;
-          option1.textContent = `${displayName} (${authMethod === 'telegram' ? '📱 Telegram' : '🔍 Google'})`;
-          userSelect.appendChild(option1);
-          
-          // Add to block dropdown
-          const option2 = document.createElement('option');
-          option2.value = displayName;
-          option2.textContent = `${displayName} (${authMethod === 'telegram' ? '📱 Telegram' : '🔍 Google'})`;
-          blockUserSelect.appendChild(option2);
-          
-          userCount++;
+          userSelect.innerHTML = '<option value="">-- Xatolik yuz berdi --</option>';
+          blockUserSelect.innerHTML = '<option value="">-- Xatolik yuz berdi --</option>';
         });
         
-        console.log(`✅ ${userCount} ta foydalanuvchi yuklandi`);
-        showNotification(`✅ ${userCount} ta foydalanuvchi yuklandi`, 'success');
-      } else {
-        console.log('❌ Hech qanday foydalanuvchi topilmadi');
-        showNotification('❌ Hech qanday foydalanuvchi topilmadi', 'error');
+      } catch (error) {
+        console.error('❌ loadUsers xatosi:', error);
+        showNotification('❌ Foydalanuvchilarni yuklashda xatolik!', 'error');
       }
-    }, (error) => {
-      console.error('❌ Foydalanuvchilarni yuklashda xatolik:', error);
-      showNotification('❌ Foydalanuvchilarni yuklashda xatolik: ' + error.message, 'error');
-      
-      userSelect.innerHTML = '<option value="">-- Xatolik yuz berdi --</option>';
-      blockUserSelect.innerHTML = '<option value="">-- Xatolik yuz berdi --</option>';
-    });
-    
-  } catch (error) {
-    console.error('❌ loadUsers xatosi:', error);
-    showNotification('❌ Foydalanuvchilarni yuklashda xatolik!', 'error');
-  }
-};
+    };
 
     // Send notification to user
     window.sendNotification = async function() {
@@ -1382,59 +1390,59 @@
 
     // Render users table
     function renderUsersTable() {
-  const tbody = document.getElementById('usersTableBody');
-  tbody.innerHTML = '';
-  
-  allUsers.forEach(user => {
-    let displayName = '';
-    let email = '';
-    const authMethod = user.authMethod || 'unknown';
-    
-    // Handle different auth methods
-    if (authMethod === 'google') {
-      displayName = user.displayName || 'N/A';
-      email = user.email || 'N/A';
-    } else if (authMethod === 'telegram') {
-      displayName = user.displayName || `telegram_${user.telegramId}`;
-      email = `Telegram ID: ${user.telegramId || 'N/A'}`;
-    } else {
-      displayName = user.displayName || user.email || 'N/A';
-      email = user.email || 'N/A';
+      const tbody = document.getElementById('usersTableBody');
+      tbody.innerHTML = '';
+      
+      allUsers.forEach(user => {
+        let displayName = '';
+        let userInfo = '';
+        const authMethod = user.authMethod || 'unknown';
+        
+        // Handle different auth methods
+        if (authMethod === 'google') {
+          displayName = user.displayName || 'N/A';
+          userInfo = user.email || 'N/A';
+        } else if (authMethod === 'telegram') {
+          displayName = user.nickname || user.displayName || `telegram_${user.telegramId}`;
+          userInfo = `Telegram ID: ${user.telegramId || 'N/A'}`;
+        } else {
+          displayName = user.displayName || user.email || 'N/A';
+          userInfo = user.email || 'N/A';
+        }
+        
+        const createdAt = user.createdAt ? new Date(user.createdAt).toLocaleDateString('uz-UZ') : 'N/A';
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td style="font-weight: 600; color: var(--primary);">
+            ${displayName}
+            <br><small style="color: var(--gray); font-weight: 400;">
+              ${authMethod === 'telegram' ? '📱 Telegram' : '🔍 Google'}
+            </small>
+          </td>
+          <td>${userInfo}</td>
+          <td>${createdAt}</td>
+          <td>
+            <span class="user-status ${user.isBlocked ? 'status-blocked' : 'status-active'}">
+              ${user.isBlocked ? '🚫 Bloklangan' : '✅ Faol'}
+            </span>
+          </td>
+          <td class="user-actions">
+            ${user.isBlocked ? `
+              <button class="btn-small btn-success" onclick="unblockUser('${displayName}')">
+                ✅ Blokdan chiqarish
+              </button>
+            ` : `
+              <button class="btn-small btn-danger" onclick="showBlockModal('${displayName}')">
+                🚫 Bloklash
+              </button>
+            `}
+          </td>
+        `;
+        
+        tbody.appendChild(row);
+      });
     }
-    
-    const createdAt = user.createdAt ? new Date(user.createdAt).toLocaleDateString('uz-UZ') : 'N/A';
-    
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td style="font-weight: 600; color: var(--primary);">
-        ${displayName}
-        <br><small style="color: var(--gray); font-weight: 400;">
-          ${authMethod === 'telegram' ? '📱 Telegram' : '🔍 Google'}
-        </small>
-      </td>
-      <td>${email}</td>
-      <td>${createdAt}</td>
-      <td>
-        <span class="user-status ${user.isBlocked ? 'status-blocked' : 'status-active'}">
-          ${user.isBlocked ? '🚫 Bloklangan' : '✅ Faol'}
-        </span>
-      </td>
-      <td class="user-actions">
-        ${user.isBlocked ? `
-          <button class="btn-small btn-success" onclick="unblockUser('${displayName}')">
-            ✅ Blokdan chiqarish
-          </button>
-        ` : `
-          <button class="btn-small btn-danger" onclick="showBlockModal('${displayName}')">
-            🚫 Bloklash
-          </button>
-        `}
-      </td>
-    `;
-    
-    tbody.appendChild(row);
-  });
-}
 
     // Show block modal
     window.showBlockModal = function(username) {
