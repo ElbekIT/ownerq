@@ -393,6 +393,19 @@
       transform: translateY(-2px);
     }
 
+    .btn-telegram {
+      background: linear-gradient(135deg, #0088cc, #229ed9);
+      color: white;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .btn-telegram:hover {
+      background: linear-gradient(135deg, #006699, #1a7db8);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
     .btn-danger {
       background: var(--error);
       color: white;
@@ -885,31 +898,62 @@
         </div>
       </div>
 
-      <!-- Send Notification Section -->
+      <!-- Telegram Message Section -->
       <div class="control-section">
         <h3 class="section-title">
-          <span>📢</span> Foydalanuvchilarga habar yuborish
+          <span>📱</span> Telegram orqali habar yuborish
         </h3>
         
         <div class="control-grid">
           <div>
             <div class="form-group">
-              <label class="form-label">👤 Foydalanuvchi tanlang:</label>
-              <select id="userSelect" class="form-select">
-                <option value="">-- Foydalanuvchi tanlang --</option>
+              <label class="form-label">👤 Telegram foydalanuvchini tanlang:</label>
+              <select id="telegramUserSelect" class="form-select">
+                <option value="">-- Telegram foydalanuvchini tanlang --</option>
               </select>
-              <button onclick="loadUsers()" class="btn btn-secondary">
-                🔄 Foydalanuvchilarni yuklash
+              <button onclick="loadTelegramUsers()" class="btn btn-secondary">
+                🔄 Telegram foydalanuvchilarni yuklash
               </button>
             </div>
           </div>
           
           <div>
             <div class="form-group">
-              <label class="form-label">📝 Habar matni:</label>
-              <textarea id="messageText" placeholder="Habar matnini kiriting... (Telegram foydalanuvchilarga ham Telegram orqali yuboriladi)" class="form-textarea"></textarea>
-              <button onclick="sendNotification()" class="btn btn-primary">
-                📤 Habar yuborish
+              <label class="form-label">📝 Telegram habar matni:</label>
+              <textarea id="telegramMessageText" placeholder="Faqat Telegram orqali yuboriladigan habar matnini kiriting..." class="form-textarea"></textarea>
+              <button onclick="sendTelegramMessage()" class="btn btn-telegram">
+                📱 Telegram orqali yuborish
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Website Notification Section -->
+      <div class="control-section">
+        <h3 class="section-title">
+          <span>🌐</span> Sayt habarnomasi yuborish
+        </h3>
+        
+        <div class="control-grid">
+          <div>
+            <div class="form-group">
+              <label class="form-label">👤 Foydalanuvchi tanlang:</label>
+              <select id="websiteUserSelect" class="form-select">
+                <option value="">-- Foydalanuvchi tanlang --</option>
+              </select>
+              <button onclick="loadWebsiteUsers()" class="btn btn-secondary">
+                🔄 Barcha foydalanuvchilarni yuklash
+              </button>
+            </div>
+          </div>
+          
+          <div>
+            <div class="form-group">
+              <label class="form-label">📝 Sayt habarnoma matni:</label>
+              <textarea id="websiteMessageText" placeholder="Faqat saytda ko'rinadigan habarnoma matnini kiriting..." class="form-textarea"></textarea>
+              <button onclick="sendWebsiteNotification()" class="btn btn-primary">
+                🌐 Sayt habarnomasi yuborish
               </button>
             </div>
           </div>
@@ -1098,7 +1142,8 @@
         
         // Initialize dashboard
         setTimeout(() => {
-          loadUsers();
+          loadTelegramUsers();
+          loadWebsiteUsers();
           loadUsersForManagement();
           loadOrders();
         }, 500);
@@ -1187,24 +1232,24 @@
       });
     }
 
-    // Load users for dropdowns
-    window.loadUsers = async function() {
+    // Load Telegram users only
+    window.loadTelegramUsers = async function() {
       try {
-        const userSelect = document.getElementById('userSelect');
+        const telegramUserSelect = document.getElementById('telegramUserSelect');
         const blockUserSelect = document.getElementById('blockUserSelect');
         
-        userSelect.innerHTML = '<option value="">-- Yuklanmoqda... --</option>';
+        telegramUserSelect.innerHTML = '<option value="">-- Yuklanmoqda... --</option>';
         blockUserSelect.innerHTML = '<option value="">-- Yuklanmoqda... --</option>';
         
         const usersRef = ref(database, 'users');
         onValue(usersRef, (snapshot) => {
-          userSelect.innerHTML = '<option value="">-- Foydalanuvchi tanlang --</option>';
+          telegramUserSelect.innerHTML = '<option value="">-- Telegram foydalanuvchini tanlang --</option>';
           blockUserSelect.innerHTML = '<option value="">-- Foydalanuvchi tanlang --</option>';
           
           if (snapshot.exists()) {
             const users = snapshot.val();
-            let totalUserCount = 0;
             let telegramUserCount = 0;
+            let totalUserCount = 0;
             
             Object.keys(users).forEach(uid => {
               const user = users[uid];
@@ -1216,12 +1261,6 @@
               // Handle different auth methods
               if (authMethod === 'google') {
                 displayName = user.displayName || user.email || `User_${uid.substring(0, 8)}`;
-                
-                // Add to notification dropdown (all users can receive website notifications)
-                const option1 = document.createElement('option');
-                option1.value = displayName;
-                option1.textContent = `${displayName} (🔍 Google - Sayt)`;
-                userSelect.appendChild(option1);
                 
                 // Add to block dropdown (all users)
                 const option2 = document.createElement('option');
@@ -1240,11 +1279,11 @@
                   nickname: user.nickname || 'N/A'
                 });
                 
-                // Add to notification dropdown (Telegram users get both website and Telegram notifications)
+                // Add to Telegram dropdown (only Telegram users)
                 const option1 = document.createElement('option');
                 option1.value = displayName;
-                option1.textContent = `${displayName} (📱 Telegram + Sayt)`;
-                userSelect.appendChild(option1);
+                option1.textContent = `${displayName} (📱 Telegram)`;
+                telegramUserSelect.appendChild(option1);
                 
                 // Add to block dropdown (all users)
                 const option2 = document.createElement('option');
@@ -1254,36 +1293,188 @@
               }
             });
             
-            console.log(`✅ Jami ${totalUserCount} ta foydalanuvchi yuklandi (${telegramUserCount} ta Telegram)`);
-            showNotification(`✅ ${totalUserCount} ta foydalanuvchi yuklandi`, 'success');
+            console.log(`✅ ${telegramUserCount} ta Telegram foydalanuvchi yuklandi`);
+            showNotification(`✅ ${telegramUserCount} ta Telegram foydalanuvchi yuklandi`, 'success');
             
-            if (totalUserCount === 0) {
-              userSelect.innerHTML = '<option value="">-- Foydalanuvchi yo\'q --</option>';
+            if (telegramUserCount === 0) {
+              telegramUserSelect.innerHTML = '<option value="">-- Telegram foydalanuvchi yo\'q --</option>';
             }
           } else {
             console.log('❌ Hech qanday foydalanuvchi topilmadi');
             showNotification('❌ Hech qanday foydalanuvchi topilmadi', 'error');
-            userSelect.innerHTML = '<option value="">-- Foydalanuvchi yo\'q --</option>';
+            telegramUserSelect.innerHTML = '<option value="">-- Foydalanuvchi yo\'q --</option>';
             blockUserSelect.innerHTML = '<option value="">-- Foydalanuvchi yo\'q --</option>';
           }
         }, (error) => {
           console.error('❌ Foydalanuvchilarni yuklashda xatolik:', error);
           showNotification('❌ Foydalanuvchilarni yuklashda xatolik: ' + error.message, 'error');
           
-          userSelect.innerHTML = '<option value="">-- Xatolik yuz berdi --</option>';
+          telegramUserSelect.innerHTML = '<option value="">-- Xatolik yuz berdi --</option>';
           blockUserSelect.innerHTML = '<option value="">-- Xatolik yuz berdi --</option>';
         });
         
       } catch (error) {
-        console.error('❌ loadUsers xatosi:', error);
-        showNotification('❌ Foydalanuvchilarni yuklashda xatolik!', 'error');
+        console.error('❌ loadTelegramUsers xatosi:', error);
+        showNotification('❌ Telegram foydalanuvchilarni yuklashda xatolik!', 'error');
       }
     };
 
-    // Send notification to user via Telegram Bot AND save to website notifications
-    window.sendNotification = async function() {
-      const selectedUser = document.getElementById('userSelect').value;
-      const messageText = document.getElementById('messageText').value.trim();
+    // Load all users for website notifications
+    window.loadWebsiteUsers = async function() {
+      try {
+        const websiteUserSelect = document.getElementById('websiteUserSelect');
+        
+        websiteUserSelect.innerHTML = '<option value="">-- Yuklanmoqda... --</option>';
+        
+        const usersRef = ref(database, 'users');
+        onValue(usersRef, (snapshot) => {
+          websiteUserSelect.innerHTML = '<option value="">-- Foydalanuvchi tanlang --</option>';
+          
+          if (snapshot.exists()) {
+            const users = snapshot.val();
+            let totalUserCount = 0;
+            
+            Object.keys(users).forEach(uid => {
+              const user = users[uid];
+              let displayName = '';
+              let authMethod = user.authMethod || 'unknown';
+              
+              totalUserCount++;
+              
+              // Handle different auth methods
+              if (authMethod === 'google') {
+                displayName = user.displayName || user.email || `User_${uid.substring(0, 8)}`;
+                
+                // Add to website notification dropdown (all users)
+                const option = document.createElement('option');
+                option.value = displayName;
+                option.textContent = `${displayName} (🔍 Google)`;
+                websiteUserSelect.appendChild(option);
+                
+              } else if (authMethod === 'telegram') {
+                displayName = user.nickname || user.displayName || `telegram_${user.telegramId}`;
+                
+                // Add to website notification dropdown (all users)
+                const option = document.createElement('option');
+                option.value = displayName;
+                option.textContent = `${displayName} (📱 Telegram)`;
+                websiteUserSelect.appendChild(option);
+              }
+            });
+            
+            console.log(`✅ ${totalUserCount} ta foydalanuvchi sayt habarnomasi uchun yuklandi`);
+            showNotification(`✅ ${totalUserCount} ta foydalanuvchi yuklandi`, 'success');
+            
+            if (totalUserCount === 0) {
+              websiteUserSelect.innerHTML = '<option value="">-- Foydalanuvchi yo\'q --</option>';
+            }
+          } else {
+            console.log('❌ Hech qanday foydalanuvchi topilmadi');
+            showNotification('❌ Hech qanday foydalanuvchi topilmadi', 'error');
+            websiteUserSelect.innerHTML = '<option value="">-- Foydalanuvchi yo\'q --</option>';
+          }
+        }, (error) => {
+          console.error('❌ Foydalanuvchilarni yuklashda xatolik:', error);
+          showNotification('❌ Foydalanuvchilarni yuklashda xatolik: ' + error.message, 'error');
+          
+          websiteUserSelect.innerHTML = '<option value="">-- Xatolik yuz berdi --</option>';
+        });
+        
+      } catch (error) {
+        console.error('❌ loadWebsiteUsers xatosi:', error);
+        showNotification('❌ Sayt foydalanuvchilarni yuklashda xatolik!', 'error');
+      }
+    };
+
+    // Send message ONLY via Telegram Bot
+    window.sendTelegramMessage = async function() {
+      const selectedUser = document.getElementById('telegramUserSelect').value;
+      const messageText = document.getElementById('telegramMessageText').value.trim();
+      
+      if (!selectedUser) {
+        showNotification('❌ Telegram foydalanuvchini tanlang!', 'error');
+        return;
+      }
+      
+      if (!messageText) {
+        showNotification('❌ Telegram habar matnini kiriting!', 'error');
+        return;
+      }
+      
+      try {
+        console.log('Faqat Telegram orqali habar yuborilmoqda:', {
+          user: selectedUser,
+          message: messageText
+        });
+        
+        // Find user's Telegram ID
+        const user = allUsers.find(u => {
+          const displayName = u.authMethod === 'telegram' ? 
+            (u.nickname || u.displayName || `telegram_${u.telegramId}`) : 
+            (u.displayName || u.email);
+          return displayName === selectedUser;
+        });
+        
+        if (!user || user.authMethod !== 'telegram' || !user.telegramId) {
+          showNotification('❌ Bu foydalanuvchi Telegram orqali ro\'yxatdan o\'tmagan!', 'error');
+          return;
+        }
+        
+        // Send message ONLY via Telegram Bot
+        const TELEGRAM_BOT_TOKEN = '7606592691:AAEX0POICKvjbOEwNQuAdUn-wqcqKdl-Gvc';
+        const telegramMessage = `👑 *OWNER DAN TELEGRAM HABAR*
+
+${messageText}
+
+📅 *Sana:* ${new Date().toLocaleString('uz-UZ')}
+👤 *Kimdan:* Elbek Design Studio Owner
+
+💬 Agar savolingiz bo'lsa, javob yozing.`;
+
+        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            chat_id: user.telegramId,
+            text: telegramMessage,
+            parse_mode: 'Markdown'
+          })
+        });
+
+        const data = await response.json();
+        
+        if (data.ok) {
+          console.log('✅ Telegram habar muvaffaqiyatli yuborildi');
+
+          document.getElementById('telegramUserSelect').value = '';
+          document.getElementById('telegramMessageText').value = '';
+
+          showNotification(`✅ ${selectedUser} ga faqat Telegram orqali habar yuborildi!`, 'success');
+        } else {
+          console.error('❌ Telegram API xatosi:', data);
+          let errorMessage = '❌ Telegram orqali habar yuborishda xatolik!';
+          
+          if (data.error_code === 403) {
+            errorMessage = '❌ Foydalanuvchi botni bloklagan yoki /start bosmagan!';
+          } else if (data.error_code === 400) {
+            errorMessage = '❌ Telegram ID noto\'g\'ri yoki foydalanuvchi topilmadi!';
+          }
+          
+          showNotification(errorMessage, 'error');
+        }
+
+      } catch (error) {
+        console.error('❌ Telegram habar yuborishda xatolik:', error);
+        showNotification('❌ Telegram habar yuborishda xatolik: ' + error.message, 'error');
+      }
+    };
+
+    // Send notification ONLY to website
+    window.sendWebsiteNotification = async function() {
+      const selectedUser = document.getElementById('websiteUserSelect').value;
+      const messageText = document.getElementById('websiteMessageText').value.trim();
       
       if (!selectedUser) {
         showNotification('❌ Foydalanuvchini tanlang!', 'error');
@@ -1291,17 +1482,17 @@
       }
       
       if (!messageText) {
-        showNotification('❌ Habar matnini kiriting!', 'error');
+        showNotification('❌ Sayt habarnoma matnini kiriting!', 'error');
         return;
       }
       
       try {
-        console.log('Habar yuborilmoqda:', {
+        console.log('Faqat sayt habarnomasi yuborilmoqda:', {
           user: selectedUser,
           message: messageText
         });
         
-        // Save notification to Firebase for website viewing (for all users)
+        // Save notification ONLY to Firebase for website viewing
         const notificationData = {
           message: messageText,
           from: 'Owner',
@@ -1312,76 +1503,17 @@
         
         const notificationsRef = ref(database, `notifications/${selectedUser}`);
         await push(notificationsRef, notificationData);
-        
-        // Find user to check if they're Telegram user for bot message
-        const user = allUsers.find(u => {
-          let displayName = '';
-          if (u.authMethod === 'google') {
-            displayName = u.displayName || u.email || `User_${u.uid.substring(0, 8)}`;
-          } else if (u.authMethod === 'telegram') {
-            displayName = u.nickname || u.displayName || `telegram_${u.telegramId}`;
-          } else {
-            displayName = u.displayName || u.email || `User_${u.uid.substring(0, 8)}`;
-          }
-          return displayName === selectedUser;
-        });
-        
-        let telegramSent = false;
-        
-        // If user is Telegram user, also send via Telegram Bot
-        if (user && user.authMethod === 'telegram' && user.telegramId) {
-          try {
-            const TELEGRAM_BOT_TOKEN = '7606592691:AAEX0POICKvjbOEwNQuAdUn-wqcqKdl-Gvc';
-            const telegramMessage = `👑 *OWNER DAN HABAR*
 
-${messageText}
+        console.log('✅ Sayt habarnomasi muvaffaqiyatli yuborildi');
 
-📅 *Sana:* ${new Date().toLocaleString('uz-UZ')}
-👤 *Kimdan:* Elbek Design Studio Owner
-🌐 *Saytda ham ko'rishingiz mumkin:* habarnoma.html
+        document.getElementById('websiteUserSelect').value = '';
+        document.getElementById('websiteMessageText').value = '';
 
-💬 Agar savolingiz bo'lsa, javob yozing.`;
-
-            const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                chat_id: user.telegramId,
-                text: telegramMessage,
-                parse_mode: 'Markdown'
-              })
-            });
-
-            const data = await response.json();
-            
-            if (data.ok) {
-              telegramSent = true;
-              // Update notification to show it was sent via both
-              await update(ref(database, `notifications/${selectedUser}`), {
-                sentVia: 'both'
-              });
-            }
-          } catch (telegramError) {
-            console.error('Telegram yuborishda xatolik:', telegramError);
-          }
-        }
-
-        console.log('✅ Habar muvaffaqiyatli yuborildi');
-
-        document.getElementById('userSelect').value = '';
-        document.getElementById('messageText').value = '';
-
-        if (telegramSent) {
-          showNotification(`✅ ${selectedUser} ga saytda va Telegram orqali habar yuborildi!`, 'success');
-        } else {
-          showNotification(`✅ ${selectedUser} ga saytda habar yuborildi!`, 'success');
-        }
+        showNotification(`✅ ${selectedUser} ga faqat sayt habarnomasi yuborildi!`, 'success');
 
       } catch (error) {
-        console.error('❌ Habar yuborishda xatolik:', error);
-        showNotification('❌ Habar yuborishda xatolik: ' + error.message, 'error');
+        console.error('❌ Sayt habarnomasi yuborishda xatolik:', error);
+        showNotification('❌ Sayt habarnomasi yuborishda xatolik: ' + error.message, 'error');
       }
     };
 
@@ -1789,3 +1921,4 @@ ${messageText}
   </style>
 </body>
 </html>
+</merged_code>
